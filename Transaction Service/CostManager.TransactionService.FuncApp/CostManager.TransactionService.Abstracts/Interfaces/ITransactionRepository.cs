@@ -7,5 +7,7 @@ namespace CostManager.TransactionService.Abstracts.Interfaces
         Guid AddTransaction(AddTransactionModel addTransaction);
 
         List<TransactionModel> GetTransactionsList();
+
+        bool RemoveTransaction(Guid transactionId);
     }
 }

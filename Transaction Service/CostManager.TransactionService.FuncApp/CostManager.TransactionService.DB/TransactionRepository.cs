@@ -38,5 +38,19 @@ namespace CostManager.TransactionService.DB
 
             return result;
         }
+
+        public bool RemoveTransaction(Guid transactionId)
+        {
+            var transaction = _transactions.FirstOrDefault(t => t.TransactionId == transactionId);
+            
+            bool result = transaction != null;            
+
+            if (result)
+            {
+                _transactions.Remove(transaction);
+            }
+
+            return result;
+        }
     }
 }
