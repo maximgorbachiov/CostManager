@@ -24,7 +24,7 @@ namespace CostManager.TransactionService.FuncApp
         {
             log.LogInformation("C# HTTP trigger GetTransactionsList function processed a request.");
 
-            var transactionModels = _transactionRepository.GetTransactionsList();
+            var transactionModels = await _transactionRepository.GetTransactionsList();
 
             return new OkObjectResult(transactionModels);
         }

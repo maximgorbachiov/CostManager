@@ -31,7 +31,7 @@ namespace CostManager.TransactionService.FuncApp
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var addTransactionModel = JsonConvert.DeserializeObject<AddTransactionModel>(requestBody);
 
-            Guid newTransactionId = _transactionRepository.AddTransaction(addTransactionModel);
+            string newTransactionId = await _transactionRepository.AddTransaction(addTransactionModel);
 
             return new OkObjectResult(newTransactionId);
         }

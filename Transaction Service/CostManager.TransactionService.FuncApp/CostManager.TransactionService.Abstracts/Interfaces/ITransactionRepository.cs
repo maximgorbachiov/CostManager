@@ -4,10 +4,10 @@ namespace CostManager.TransactionService.Abstracts.Interfaces
 {
     public interface ITransactionRepository
     {
-        Guid AddTransaction(AddTransactionModel addTransaction);
+        Task<string> AddTransaction(AddTransactionModel addTransaction);
 
-        List<TransactionModel> GetTransactionsList();
+        Task<List<TransactionModel>> GetTransactionsList();
 
-        bool RemoveTransaction(Guid transactionId);
+        Task<bool> RemoveTransaction(string transactionId);
     }
 }
