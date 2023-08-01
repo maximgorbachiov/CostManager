@@ -3,15 +3,15 @@ using CostManager.TransactionService.Abstracts.Models;
 
 namespace CostManager.TransactionService.DB
 {
-    public class TransactionRepository : ITransactionRepository
+    public class InMemoryTransactionRepository : ITransactionRepository
     {
         private List<Transaction> _transactions = new List<Transaction>();
 
-        public Guid AddTransaction(AddTransactionModel addTransaction)
+        public async Task<string> AddTransaction(AddTransactionModel addTransaction)
         {
             var transaction = new Transaction
             {
-                TransactionId = Guid.NewGuid(),
+                id = Guid.NewGuid().ToString(),
                 Sum = addTransaction.Sum,
                 PlaceOfTransaction = addTransaction.PlaceOfTransaction,
                 Description = addTransaction.Description,
@@ -21,14 +21,14 @@ namespace CostManager.TransactionService.DB
 
             _transactions.Add(transaction);
 
-            return transaction.TransactionId;
+            return await Task.FromResult(transaction.id);
         }
 
-        public List<TransactionModel> GetTransactionsList()
+        public async Task<List<TransactionModel>> GetTransactionsList()
         {
             var result = _transactions.Select(t => new TransactionModel
             {
-                TransactionId = t.TransactionId,
+                TransactionId = t.id,
                 Sum = t.Sum,
                 PlaceOfTransaction = t.PlaceOfTransaction,
                 Description = t.Description,
@@ -36,12 +36,12 @@ namespace CostManager.TransactionService.DB
                 CategoryId = t.CategoryId
             }).ToList();
 
-            return result;
+            return await Task.FromResult(result);
         }
 
-        public bool RemoveTransaction(Guid transactionId)
+        public async Task<bool> RemoveTransaction(string transactionId)
         {
-            var transaction = _transactions.FirstOrDefault(t => t.TransactionId == transactionId);
+            var transaction = _transactions.FirstOrDefault(t => t.id == transactionId);
             
             bool result = transaction != null;            
 
@@ -50,7 +50,7 @@ namespace CostManager.TransactionService.DB
                 _transactions.Remove(transaction);
             }
 
-            return result;
+            return await Task.FromResult(result);
         }
     }
 }

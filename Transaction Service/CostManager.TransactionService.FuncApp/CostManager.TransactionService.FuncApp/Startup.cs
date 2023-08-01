@@ -1,5 +1,6 @@
 ﻿using CostManager.TransactionService.Abstracts.Interfaces;
 using CostManager.TransactionService.DB;
+using CostManager.TransactionService.FuncApp.Extensions;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,7 +11,9 @@ namespace CostManager.TransactionService.FuncApp
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {
-            builder.Services.AddSingleton<ITransactionRepository, TransactionRepository>();
+            //builder.Services.AddSingleton<ITransactionRepository, InMemoryTransactionRepository>();
+            builder.Services.AddCosmosDb();
+            builder.Services.AddSingleton<ITransactionRepository, CosmosDbTransactionsRepository>();
         }
     }
 }

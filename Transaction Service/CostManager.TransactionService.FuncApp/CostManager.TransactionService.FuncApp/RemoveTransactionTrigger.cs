@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Threading.Tasks;
 
 namespace CostManager.TransactionService.FuncApp
@@ -26,9 +25,8 @@ namespace CostManager.TransactionService.FuncApp
             log.LogInformation("C# HTTP trigger RemoveTransaction function processed a request.");
 
             string transactionId = req.Query["transactionId"].ToString();
-            Guid transactionGuid = Guid.Parse(transactionId);
 
-            bool removedSuccessfully = _transactionRepository.RemoveTransaction(transactionGuid);
+            bool removedSuccessfully = await _transactionRepository.RemoveTransaction(transactionId);
 
             return new OkObjectResult(removedSuccessfully);
         }
