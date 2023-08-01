@@ -82,7 +82,20 @@ namespace CostManager.TransactionService.DB
 
         public async Task<bool> RemoveTransaction(string transactionId)
         {
-            throw new NotImplementedException();
+            var container = await GetTransactionsContainer();
+
+            try
+            {
+                _ = await container.DeleteItemAsync<Transaction>(
+                    id: transactionId,
+                    partitionKey: new PartitionKey("const"));
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
         private async Task<Container> GetTransactionsContainer()
