@@ -1,13 +1,10 @@
-using System.IO;
 using System.Threading.Tasks;
 using CostManager.TransactionService.Abstracts.Interfaces;
 using CostManager.TransactionService.Abstracts.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace CostManager.TransactionService.FuncApp
 {
@@ -22,15 +19,20 @@ namespace CostManager.TransactionService.FuncApp
 
         [FunctionName("AddTransactionTrigger")]
         public async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] AddTransactionModel addTransactionModel,
             ILogger log)
         {
-            log.LogInformation("C# HTTP trigger AddTransaction function processed a request.");
+            string infoMessage = new string($"C# HTTP trigger {nameof(AddTransactionTrigger)} processed a request.");
+            log.LogInformation(infoMessage);
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            var addTransactionModel = JsonConvert.DeserializeObject<AddTransactionModel>(requestBody);
+            if (string.IsNullOrEmpty(addTransactionModel.CategoryId))
+            {
+                string errorMessage = new string($"{nameof(AddTransactionTrigger)}: {nameof(addTransactionModel.CategoryId)} should not be empty");
+                log.LogError(errorMessage);
+                return new BadRequestObjectResult(errorMessage);
+            }
 
-            string newTransactionId = await _transactionRepository.AddTransaction(addTransactionModel);
+            string newTransactionId = await _transactionRepository.AddTransactionAsync(addTransactionModel);
 
             return new OkObjectResult(newTransactionId);
         }

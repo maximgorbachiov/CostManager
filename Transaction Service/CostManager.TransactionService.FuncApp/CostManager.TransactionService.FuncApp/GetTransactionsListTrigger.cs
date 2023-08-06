@@ -22,9 +22,9 @@ namespace CostManager.TransactionService.FuncApp
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
-            log.LogInformation("C# HTTP trigger GetTransactionsList function processed a request.");
+            log.LogInformation($"C# HTTP trigger {nameof(GetTransactionsListTrigger)} processed a request.");
 
-            var transactionModels = await _transactionRepository.GetTransactionsList();
+            var transactionModels = await _transactionRepository.GetTransactionsListAsync();
 
             return new OkObjectResult(transactionModels);
         }
