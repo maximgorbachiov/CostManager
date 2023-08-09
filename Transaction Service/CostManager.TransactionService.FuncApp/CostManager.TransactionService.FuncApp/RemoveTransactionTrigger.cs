@@ -22,11 +22,17 @@ namespace CostManager.TransactionService.FuncApp
             [HttpTrigger(AuthorizationLevel.Function, "delete", Route = null)] HttpRequest req,
             ILogger log)
         {
-            log.LogInformation("C# HTTP trigger RemoveTransaction function processed a request.");
+            log.LogInformation($"C# HTTP trigger {nameof(RemoveTransactionTrigger)} processed a request.");
 
             string transactionId = req.Query["transactionId"].ToString();
 
-            bool removedSuccessfully = await _transactionRepository.RemoveTransaction(transactionId);
+            if (string.IsNullOrEmpty(transactionId))
+            {
+                log.LogError($"{nameof(RemoveTransactionTrigger)}: {nameof(transactionId)} should not be empty");
+                return new BadRequestObjectResult($"{nameof(RemoveTransactionTrigger)}: {nameof(transactionId)} should not be empty");
+            }
+
+            bool removedSuccessfully = await _transactionRepository.RemoveTransactionAsync(transactionId);
 
             return new OkObjectResult(removedSuccessfully);
         }

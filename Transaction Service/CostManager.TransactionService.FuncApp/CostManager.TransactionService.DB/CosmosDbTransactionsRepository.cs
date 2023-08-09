@@ -18,7 +18,7 @@ namespace CostManager.TransactionService.DB
             _logger = logger;
         }
 
-        public async Task<string> AddTransaction(AddTransactionModel addTransaction)
+        public async Task<string> AddTransactionAsync(AddTransactionModel addTransaction)
         {
             var container = await GetTransactionsContainer();
 
@@ -50,7 +50,7 @@ namespace CostManager.TransactionService.DB
             return createdItem?.id ?? string.Empty;
         }
 
-        public async Task<List<TransactionModel>> GetTransactionsList()
+        public async Task<List<TransactionModel>> GetTransactionsListAsync()
         {
             var result = new List<TransactionModel>();
 
@@ -80,7 +80,7 @@ namespace CostManager.TransactionService.DB
             return result;
         }
 
-        public async Task<bool> RemoveTransaction(string transactionId)
+        public async Task<bool> RemoveTransactionAsync(string transactionId)
         {
             var container = await GetTransactionsContainer();
 
