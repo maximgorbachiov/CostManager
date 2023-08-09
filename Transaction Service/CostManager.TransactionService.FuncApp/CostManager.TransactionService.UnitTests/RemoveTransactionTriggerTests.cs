@@ -53,7 +53,7 @@ namespace CostManager.TransactionService.UnitTests
             var req = new DefaultHttpContext();
             req.Request.QueryString = new QueryString($"?transactionId={transactionId}");
 
-            _transactionRepository.RemoveTransactionAsync(Arg.Any<string>()).Returns(false);
+            _transactionRepository.RemoveTransactionAsync(Arg.Any<string>()).Returns(true);
 
             // Act
             var response = _removeTransactionTrigger.Run(req.Request, _logger);
