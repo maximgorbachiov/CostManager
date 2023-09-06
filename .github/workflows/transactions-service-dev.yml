@@ -49,7 +49,7 @@ jobs:
     - name: 'Resolve Project Dependencies Using Dotnet'
       shell: pwsh # For Linux, use bash
       run: |
-        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/CostManager.TransactionService.FuncApp'
         dotnet build --configuration Release --output ./output
         popd
 
@@ -64,5 +64,5 @@ jobs:
       id: fa
       with:
         app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-        package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
+        package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/CostManager.TransactionService.FuncApp/output'
         publish-profile: ${{ secrets.AZURE_TRANSACTIONSSERVICE_FUNCTIONAPP_PUBLISH_PROFILE }} # Remove publish-profile to use Azure RBAC
