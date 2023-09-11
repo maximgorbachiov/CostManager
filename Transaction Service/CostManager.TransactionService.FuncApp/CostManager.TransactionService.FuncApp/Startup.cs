@@ -24,6 +24,7 @@ namespace CostManager.TransactionService.FuncApp
 
             builder.ConfigurationBuilder
                 .AddJsonFile(Path.Combine(context.ApplicationRootPath, "local.settings.json"), optional: true, reloadOnChange: false)
+                .AddJsonFile(Path.Combine(context.ApplicationRootPath, "settings.json"), optional: true, reloadOnChange: false)
                 .AddEnvironmentVariables()
                 .AddKeyVault();
 		}
