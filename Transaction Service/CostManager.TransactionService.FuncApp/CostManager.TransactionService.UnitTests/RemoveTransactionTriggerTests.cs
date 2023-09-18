@@ -31,7 +31,7 @@ namespace CostManager.TransactionService.UnitTests
             req.Request.QueryString = new QueryString($"?transactionId={transactionId}");
 
             // Act
-            var response = _removeTransactionTrigger.Run(req.Request, _logger);
+            var response = await _removeTransactionTrigger.Run(req.Request, _logger);
 
             // Assert
             //string infoMessage = $"C# HTTP trigger {nameof(AddTransactionTrigger)} processed a request.";
@@ -39,7 +39,7 @@ namespace CostManager.TransactionService.UnitTests
             //_logger.Received(1).LogInformation(infoMessage);
             //_logger.Received(1).LogError(errorMessage);
 
-            var result = response.Result as BadRequestObjectResult;
+            var result = response as BadRequestObjectResult;
             result.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
             result.Value.Should().Be($"{nameof(RemoveTransactionTrigger)}: {nameof(transactionId)} should not be empty");
         }
@@ -56,7 +56,7 @@ namespace CostManager.TransactionService.UnitTests
             _transactionRepository.RemoveTransactionAsync(Arg.Any<string>()).Returns(true);
 
             // Act
-            var response = _removeTransactionTrigger.Run(req.Request, _logger);
+            var response = await _removeTransactionTrigger.Run(req.Request, _logger);
 
             // Assert
             //string infoMessage = $"C# HTTP trigger {nameof(AddTransactionTrigger)} processed a request.";
@@ -64,7 +64,7 @@ namespace CostManager.TransactionService.UnitTests
             //_logger.Received(1).LogInformation(infoMessage);
             //_logger.Received(1).LogError(errorMessage);
 
-            var result = response.Result as OkObjectResult;
+            var result = response as OkObjectResult;
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
             result.Value.Should().BeEquivalentTo(true);
         }
