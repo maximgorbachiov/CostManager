@@ -15,6 +15,7 @@ namespace CostManager.TransactionService.FuncApp
         {
             //builder.Services.AddSingleton<ITransactionRepository, InMemoryTransactionRepository>();
             builder.AddCosmosDb();
+            builder.Services.AddSwagger();
             builder.Services.AddSingleton<ITransactionRepository, CosmosDbTransactionsRepository>();
         }
 
