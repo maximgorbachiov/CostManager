@@ -13,24 +13,28 @@ namespace Mappers.MappingProfiles
                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.CategoryId))
                .ForMember(dest => dest.ParentId, opt => opt.MapFrom(src => src.ParentCategoryId))
                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.CategoryName))
-               .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.CategoryDescription));
+               .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.CategoryDescription))
+               .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId));
 
             CreateMap<CategoryModel, Category>()
                .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.Id))
                .ForMember(dest => dest.ParentCategoryId, opt => opt.MapFrom(src => src.ParentId))
                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Name))
-               .ForMember(dest => dest.CategoryDescription, opt => opt.MapFrom(src => src.Description));
+               .ForMember(dest => dest.CategoryDescription, opt => opt.MapFrom(src => src.Description))
+               .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId));
 
             CreateMap<CategoryModel, CategoryViewModelOnRead>()
                .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.Id))
                .ForMember(dest => dest.ParentCategoryId, opt => opt.MapFrom(src => src.ParentId))
                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Name))
-               .ForMember(dest => dest.CategoryDescription, opt => opt.MapFrom(src => src.Description));
+               .ForMember(dest => dest.CategoryDescription, opt => opt.MapFrom(src => src.Description))
+               .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId));
 
             CreateMap<CategoryViewModelOnCreate, CategoryModel>()
                .ForMember(dest => dest.ParentId, opt => opt.MapFrom(src => src.ParentCategoryId))
                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.CategoryName))
-               .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.CategoryDescription));
+               .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.CategoryDescription))
+               .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId));
         }
     }
 }
