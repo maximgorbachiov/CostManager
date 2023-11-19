@@ -10,4 +10,10 @@
     <PackageReference Include="AutoMapper" Version="12.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Business.Data\Business.Data.csproj" />
+    <ProjectReference Include="..\Data.Models\Data.Models.csproj" />
+    <ProjectReference Include="..\Web.Data.Models\Web.Data.Models.csproj" />
+  </ItemGroup>
+
 </Project>

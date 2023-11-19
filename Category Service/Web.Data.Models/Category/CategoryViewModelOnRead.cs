@@ -1,4 +1,4 @@
-﻿namespace Web.API.CategoryService.Models.CategoryViewModels
+﻿namespace Web.Data.Models.Category
 {
     public class CategoryViewModelOnRead
     {

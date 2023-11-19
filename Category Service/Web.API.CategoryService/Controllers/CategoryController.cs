@@ -1,6 +1,7 @@
 ﻿using Business.Services.Abstraction;
 using Microsoft.AspNetCore.Mvc;
 using Web.API.CategoryService.Models.CategoryViewModels;
+using Web.Data.Models.Category;
 
 namespace Web.API.CategoryService.Controllers
 {

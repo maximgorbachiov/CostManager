@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Abstraction.Repositories\Abstraction.Repositories.csproj" />
+    <ProjectReference Include="..\Business.Data\Business.Data.csproj" />
     <ProjectReference Include="..\Business.Services.Abstraction\Business.Services.Abstraction.csproj" />
   </ItemGroup>
 

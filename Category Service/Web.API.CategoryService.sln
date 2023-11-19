@@ -3,29 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CategoryService", "Web.API.CategoryService\CategoryService.csproj", "{1D740532-868B-469E-91F2-051DB9CBAF8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CategoryService", "Web.API.CategoryService\CategoryService.csproj", "{1D740532-868B-469E-91F2-051DB9CBAF8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogic.CategoryService", "BusinessLogic.CategoryService\BusinessLogic.CategoryService.csproj", "{603B5A6C-E1C4-41C3-BC68-8BC9976E07A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogic.CategoryService", "BusinessLogic.CategoryService\BusinessLogic.CategoryService.csproj", "{603B5A6C-E1C4-41C3-BC68-8BC9976E07A3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web.API", "Web.API", "{D82F9C22-65B4-409B-A955-4C2E05C7BF20}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BusinessLayer", "BusinessLayer", "{61E3CE65-9F82-4A97-9D7E-D677947B354A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business.Data", "ClassLibrary1\Business.Data.csproj", "{FF0C8AE1-58B3-480C-85FD-12FFD1B4F154}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ORM", "ORM", "{9B516A42-AFB9-4690-B073-CEE7E5FA2E93}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data.Models", "Data.Models\Data.Models.csproj", "{73E65128-DE37-4E35-818F-5272E3B4DD62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Models", "Data.Models\Data.Models.csproj", "{73E65128-DE37-4E35-818F-5272E3B4DD62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstraction.Repositories", "Abstraction.Repositories\Abstraction.Repositories.csproj", "{DADBBF93-4BD3-4E35-ABCB-76429D49068D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Abstraction.Repositories", "Abstraction.Repositories\Abstraction.Repositories.csproj", "{DADBBF93-4BD3-4E35-ABCB-76429D49068D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implementation.Repository.Postgres", "Implementation.Repository.Postgres\Implementation.Repository.Postgres.csproj", "{1227FE9E-5353-4988-801F-53435B7CA9C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implementation.Repository.Postgres", "Implementation.Repository.Postgres\Implementation.Repository.Postgres.csproj", "{1227FE9E-5353-4988-801F-53435B7CA9C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business.Services.Abstraction", "Business.Services.Abstraction\Business.Services.Abstraction.csproj", "{815D97E2-FA06-41EF-9DA5-F263D536AE37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business.Services.Abstraction", "Business.Services.Abstraction\Business.Services.Abstraction.csproj", "{815D97E2-FA06-41EF-9DA5-F263D536AE37}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{06DA6082-BDD2-4314-A43D-0EFFD8DD35A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mappers", "Mappers\Mappers.csproj", "{15495EA7-464B-408C-A85E-8EC23E56CE24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mappers", "Mappers\Mappers.csproj", "{15495EA7-464B-408C-A85E-8EC23E56CE24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business.Data", "Business.Data\Business.Data.csproj", "{B990BD2C-DD9C-45DC-A403-573571EFED96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Data.Models", "Web.Data.Models\Web.Data.Models.csproj", "{6511C6E3-6941-49BF-9560-D7470D83EF11}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +43,6 @@ Global
 		{603B5A6C-E1C4-41C3-BC68-8BC9976E07A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{603B5A6C-E1C4-41C3-BC68-8BC9976E07A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{603B5A6C-E1C4-41C3-BC68-8BC9976E07A3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FF0C8AE1-58B3-480C-85FD-12FFD1B4F154}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FF0C8AE1-58B3-480C-85FD-12FFD1B4F154}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FF0C8AE1-58B3-480C-85FD-12FFD1B4F154}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FF0C8AE1-58B3-480C-85FD-12FFD1B4F154}.Release|Any CPU.Build.0 = Release|Any CPU
 		{73E65128-DE37-4E35-818F-5272E3B4DD62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{73E65128-DE37-4E35-818F-5272E3B4DD62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73E65128-DE37-4E35-818F-5272E3B4DD62}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -65,6 +63,14 @@ Global
 		{15495EA7-464B-408C-A85E-8EC23E56CE24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15495EA7-464B-408C-A85E-8EC23E56CE24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15495EA7-464B-408C-A85E-8EC23E56CE24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B990BD2C-DD9C-45DC-A403-573571EFED96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B990BD2C-DD9C-45DC-A403-573571EFED96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B990BD2C-DD9C-45DC-A403-573571EFED96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B990BD2C-DD9C-45DC-A403-573571EFED96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6511C6E3-6941-49BF-9560-D7470D83EF11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6511C6E3-6941-49BF-9560-D7470D83EF11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6511C6E3-6941-49BF-9560-D7470D83EF11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6511C6E3-6941-49BF-9560-D7470D83EF11}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -72,12 +78,13 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{1D740532-868B-469E-91F2-051DB9CBAF8B} = {D82F9C22-65B4-409B-A955-4C2E05C7BF20}
 		{603B5A6C-E1C4-41C3-BC68-8BC9976E07A3} = {61E3CE65-9F82-4A97-9D7E-D677947B354A}
-		{FF0C8AE1-58B3-480C-85FD-12FFD1B4F154} = {61E3CE65-9F82-4A97-9D7E-D677947B354A}
 		{73E65128-DE37-4E35-818F-5272E3B4DD62} = {9B516A42-AFB9-4690-B073-CEE7E5FA2E93}
 		{DADBBF93-4BD3-4E35-ABCB-76429D49068D} = {9B516A42-AFB9-4690-B073-CEE7E5FA2E93}
 		{1227FE9E-5353-4988-801F-53435B7CA9C6} = {9B516A42-AFB9-4690-B073-CEE7E5FA2E93}
 		{815D97E2-FA06-41EF-9DA5-F263D536AE37} = {61E3CE65-9F82-4A97-9D7E-D677947B354A}
 		{15495EA7-464B-408C-A85E-8EC23E56CE24} = {06DA6082-BDD2-4314-A43D-0EFFD8DD35A2}
+		{B990BD2C-DD9C-45DC-A403-573571EFED96} = {61E3CE65-9F82-4A97-9D7E-D677947B354A}
+		{6511C6E3-6941-49BF-9560-D7470D83EF11} = {D82F9C22-65B4-409B-A955-4C2E05C7BF20}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5F9E7248-ACF2-4FB1-91F4-7C232B49C27A}
