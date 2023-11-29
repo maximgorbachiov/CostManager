@@ -15,7 +15,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddCustomAutoMapper();
 
-builder.Services.AddScoped<ICategoryRepository, InMemoryCategoryRepository>();
+builder.Services.AddSingleton<ICategoryRepository, InMemoryCategoryRepository>();
 builder.Services.AddScoped<ICategoryBusinessService, CategoryBusinessService>();
 
 var app = builder.Build();
