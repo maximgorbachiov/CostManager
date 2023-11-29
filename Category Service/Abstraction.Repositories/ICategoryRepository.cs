@@ -10,15 +10,15 @@ namespace Abstraction.Repositories
         Category GetTrackedEntity(Guid id);
 
         IEnumerable<Category> GetUntrackedEntities();
-        IEnumerable<Category> GetUntrackedEntities(Func<Category> selector);
+        IEnumerable<Category> GetUntrackedEntities(Func<Category, bool> selector);
         IEnumerable<Category> GetTrackedEntities();
-        IEnumerable<Category> GetTrackedEntities(Func<Category> selector);
+        IEnumerable<Category> GetTrackedEntities(Func<Category, bool> selector);
 
         Category CreateTrackedEntity(Category entity);
         Guid CreateUntrackedEntity(Category entity);
 
         bool DeleteEntity(Guid id);
         bool DeleteEntities(IEnumerable<Guid> ids);
-        bool DeleteEntities(Func<Category> selector);
+        bool DeleteEntities(Func<Category, bool> selector);
     }
 }

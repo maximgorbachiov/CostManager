@@ -16,6 +16,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Business.Services.Abstraction\Business.Services.Abstraction.csproj" />
+    <ProjectReference Include="..\BusinessLogic.CategoryService\BusinessLogic.CategoryService.csproj" />
+    <ProjectReference Include="..\Implementation.Repository.InMemory\Implementation.Repository.InMemory.csproj" />
     <ProjectReference Include="..\Mappers\Mappers.csproj" />
     <ProjectReference Include="..\Web.Data.Models\Web.Data.Models.csproj" />
   </ItemGroup>

@@ -1,4 +1,8 @@
+using Abstraction.Repositories;
+using Business.Services.Abstraction;
+using BusinessLogic.CategoryService;
 using CategoryService.Infrastructure.PipelineExtentions;
+using Implementation.Repository.InMemory;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +14,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddCustomAutoMapper();
+
+builder.Services.AddScoped<ICategoryRepository, InMemoryCategoryRepository>();
+builder.Services.AddScoped<ICategoryBusinessService, CategoryBusinessService>();
 
 var app = builder.Build();
 

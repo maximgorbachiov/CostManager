@@ -1,34 +1,47 @@
 ﻿using Abstraction.Repositories;
+using AutoMapper;
 using Business.Data;
 using Business.Services.Abstraction;
+using Data.Models;
 
 namespace BusinessLogic.CategoryService
 {
     public class CategoryBusinessService : ICategoryBusinessService
     {
         private ICategoryRepository _categoryRepository;
+        private readonly IMapper _mapper;
 
-        public CategoryBusinessService(ICategoryRepository categoryRepository)
+        public CategoryBusinessService(ICategoryRepository categoryRepository, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
+            _mapper = mapper;
         }
 
         public CategoryModel GetCategory(Guid id)
         {
             var category = _categoryRepository.GetUntrackedEntity(id);
 
-            // Some business logic and mapping
+            var categoryModel = _mapper.Map<CategoryModel>(category);
 
-            return new CategoryModel();
+            return categoryModel;
         }
 
         public IEnumerable<CategoryModel> GetCategories()
         {
-            var category = _categoryRepository.GetUntrackedEntities();
+            var categories = _categoryRepository.GetUntrackedEntities();
 
-            // Some business logic and mapping
+            var categoriesModels = categories.Select(c => _mapper.Map<CategoryModel>(c)).ToList();
 
-            return Enumerable.Empty<CategoryModel>();
+            return categoriesModels;
+        }
+
+        public Guid CreateCategory(CategoryModel categoryModel)
+        {
+            var category = _mapper.Map<Category>(categoryModel);
+
+            Guid categoryId = _categoryRepository.CreateUntrackedEntity(category);
+
+            return categoryId;
         }
     }
 }

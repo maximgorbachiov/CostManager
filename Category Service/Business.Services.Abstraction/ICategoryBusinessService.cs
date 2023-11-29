@@ -6,5 +6,6 @@ namespace Business.Services.Abstraction
     {
         CategoryModel GetCategory(Guid id);
         IEnumerable<CategoryModel> GetCategories();
+        Guid CreateCategory(CategoryModel categoryModel);
     }
 }
