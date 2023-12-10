@@ -7,9 +7,10 @@ on:
 
 env:
   AZURE_CONTAINERREGISTRY_NAME: 'categoryServiceRegistry'   # set this to your function app name on Azure
-  AZURE_CONTAINERAPP_PACKAGE_PATH: './Category Service'
+  AZURE_CONTAINERAPP_PACKAGE_PATH: './Category Service/Web.API.CategoryService'
   AZURE_CONTAINERAPP_RESOURCEGROUP_NAME: 'category-group-dev'
   AZURE_CONTAINERAPP_NAME: 'category-service-app'
+  IMAGE_NAME: 'categoryserviceregistry.azurecr.io/category-service:last'
 
 jobs:
   build:
@@ -32,3 +33,4 @@ jobs:
           acrName: ${{ env.AZURE_CONTAINERREGISTRY_NAME }}
           containerAppName: ${{ env.AZURE_CONTAINERAPP_NAME }}
           resourceGroup: ${{ env.AZURE_CONTAINERAPP_RESOURCEGROUP_NAME }}
+          imageToBuild: ${{ env.IMAGE_NAME }}
