@@ -1,10 +1,14 @@
+using System.Net;
 using System.Threading.Tasks;
 using CostManager.TransactionService.Abstracts.Interfaces;
 using CostManager.TransactionService.Abstracts.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 namespace CostManager.TransactionService.FuncApp
 {
@@ -18,8 +22,14 @@ namespace CostManager.TransactionService.FuncApp
         }
 
         [FunctionName("AddTransactionTrigger")]
+        [OpenApiOperation(operationId: "Run")]
+        [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
+        [OpenApiRequestBody("application/json", typeof(AddTransactionModel),
+            Description = "JSON request body containing { hours, capacity}")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(string),
+            Description = "The OK response message containing a JSON result.")]
         public async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] AddTransactionModel addTransactionModel,
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] AddTransactionModel addTransactionModel,
             ILogger log)
         {
             string infoMessage = new string($"C# HTTP trigger {nameof(AddTransactionTrigger)} processed a request.");

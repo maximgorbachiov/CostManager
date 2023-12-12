@@ -1,0 +1,47 @@
+name: Azure Container Apps Deploy for DEV environment
+
+on:
+  push:
+    branches:
+      - dev
+
+env:
+  AZURE_CONTAINERREGISTRY_NAME: 'categoryServiceRegistry'   # set this to your function app name on Azure
+  AZURE_CONTAINERAPP_PACKAGE_PATH: './Category Service/Web.API.CategoryService'
+  AZURE_CONTAINERAPP_RESOURCEGROUP_NAME: 'category-group-dev'
+  AZURE_CONTAINERAPP_NAME: 'category-service-app'
+  IMAGE_NAME: 'categoryserviceregistry.azurecr.io/category-service:last'
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: 'Echo ID token'
+        run: |
+          az version
+          echo "ACTIONS_ID_TOKEN_REQUEST_URL = $ACTIONS_ID_TOKEN_REQUEST_URL"
+          echo "ACTIONS_ID_TOKEN_REQUEST_TOKEN = $ACTIONS_ID_TOKEN_REQUEST_TOKEN"
+
+      - name: Log in to Azure
+        uses: azure/login@v1
+        with:
+          auth-type: IDENTITY
+          client-id: ${{ secrets.AZURE_CATEGORY_SERVICE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_CATEGORY_SERVICE_SUBSCRIPTION_ID }}
+
+      - name: Build and deploy Container App
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          appSourcePath: ${{ env.AZURE_CONTAINERAPP_PACKAGE_PATH }}
+          acrName: ${{ env.AZURE_CONTAINERREGISTRY_NAME }}
+          containerAppName: ${{ env.AZURE_CONTAINERAPP_NAME }}
+          resourceGroup: ${{ env.AZURE_CONTAINERAPP_RESOURCEGROUP_NAME }}
+          imageToBuild: ${{ env.IMAGE_NAME }}
