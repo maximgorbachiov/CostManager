@@ -6,6 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>67144f58-be97-42d1-8234-dcc636e30f93</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <AspNetCoreMinimalApi>true</AspNetCoreMinimalApi>
+    <OutputType>Library</OutputType>
   </PropertyGroup>
 
   <ItemGroup>

@@ -7,10 +7,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY "Web.API.CategoryService/CategoryService.csproj" "Web.API.CategoryService/"
-RUN dotnet restore "Web.API.CategoryService/CategoryService.csproj"
+COPY ["Web.API.CategoryService/CategoryService.csproj", "CategoryService/"]
+RUN dotnet restore "./CategoryService/CategoryService.csproj"
 COPY . .
-WORKDIR "/src/Web.API.CategoryService"
+WORKDIR "/src/CategoryService"
 RUN dotnet build "CategoryService.csproj" -c Release -o /app/build
 
 FROM build AS publish
