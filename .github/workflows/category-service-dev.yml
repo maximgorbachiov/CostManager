@@ -11,7 +11,7 @@ permissions:
 
 env:
   AZURE_CONTAINERREGISTRY_NAME: 'categoryServiceRegistry'   # set this to your function app name on Azure
-  AZURE_CONTAINERREGISTRY_DOCKERFILE_PATH: './CategoryService/Web.API.CategoryService/Dockerfile'
+  AZURE_CONTAINERREGISTRY_DOCKERFILE_PATH: './CategoryService/Dockerfile'
 
 jobs:
     build-and-deploy:
