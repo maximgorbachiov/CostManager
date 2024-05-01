@@ -8,14 +8,21 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["CategoryService/Web.API.CategoryService/CategoryService.csproj", "CategoryService/"]
-RUN dotnet restore "./CategoryService/CategoryService.csproj"
-COPY ./CategoryService .
-WORKDIR "/src/CategoryService"
-RUN dotnet build "CategoryService.csproj" -c Release -o /app/build
+COPY ./Abstraction.Repositories ./Abstraction.Repositories
+COPY ./Business.Data ./Business.Data
+COPY ./Business.Services.Abstraction ./Business.Services.Abstraction
+COPY ./BusinessLogic.CategoryService ./BusinessLogic.CategoryService
+COPY ./Data.Models ./Data.Models
+COPY ./Implementation.Repository.InMemory ./Implementation.Repository.InMemory
+COPY ./Implementation.Repository.Postgres ./Implementation.Repository.Postgres
+COPY ./Mappers ./Mappers
+COPY ./Web.API.CategoryService ./Web.API.CategoryService
+COPY ./Web.Data.Models ./Web.Data.Models
+RUN dotnet build "Web.API.CategoryService/CategoryService.csproj" -c Release -o /app/build
+WORKDIR /src/Web.API.CategoryService
 
 FROM build AS publish
-RUN dotnet publish "CategoryService.csproj" -c Release -o /app/publish /p:UseAppHost=false --self-contained --runtime linux-64
+RUN dotnet publish "CategoryService.csproj" -c Release -o /app/publish --self-contained --runtime linux-x64
 
 FROM base AS final
 WORKDIR /app
