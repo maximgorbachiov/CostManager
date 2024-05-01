@@ -11,7 +11,6 @@ permissions:
 
 env:
   AZURE_CONTAINERREGISTRY_NAME: 'categoryServiceRegistry'   # set this to your function app name on Azure
-  AZURE_CONTAINERREGISTRY_DOCKERFILE_PATH: './CategoryService/Dockerfile'
 
 jobs:
     build-and-deploy:
@@ -23,11 +22,13 @@ jobs:
         - name: 'Login via Azure CLI'
           uses: azure/login@v1
           with:
-           client-id: ${{ secrets.AZURE_APPLICATION_REGISTRATION_ID }}
-           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+            client-id: ${{ secrets.AZURE_APPLICATION_REGISTRATION_ID }}
+            tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+            subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
         - name: Build and push image
           id: build-image
           run: |
-           az acr build --image ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/category-service-app-dev:${{ github.sha }} --registry ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }} --file ${{ env.AZURE_CONTAINERREGISTRY_DOCKERFILE_PATH }} .
+            pushd './CategoryService'
+            az acr build --image ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/category-service-app-dev:${{ github.sha }} --registry ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }} .
+            popd
