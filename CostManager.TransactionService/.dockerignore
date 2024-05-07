@@ -19,6 +19,7 @@
 **/node_modules
 **/npm-debug.log
 **/obj
+**/CostManager.TransactionService.UnitTests
 **/secrets.dev.yaml
 **/values.dev.yaml
 LICENSE

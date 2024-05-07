@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CostManager.TransactionService.FuncApp\CostManager.TransactionService.FuncApp.csproj" />
+    <ProjectReference Include="..\CostManager.TransactionService.API\CostManager.TransactionService.API.csproj" />
   </ItemGroup>
 
 </Project>

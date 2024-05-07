@@ -7,11 +7,11 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["CostManager.TransactionService.API/CostManager.TransactionService.API.csproj", "CostManager.TransactionService.API/"]
-RUN dotnet restore "CostManager.TransactionService.API/CostManager.TransactionService.API.csproj"
-COPY . .
-WORKDIR "/src/CostManager.TransactionService.API"
-RUN dotnet build "CostManager.TransactionService.API.csproj" -c Release -o /app/build
+COPY ./CostManager.TransactionService.Abstracts ./CostManager.TransactionService.Abstracts
+COPY ./CostManager.TransactionService.API ./CostManager.TransactionService.API
+COPY ./CostManager.TransactionService.DB ./CostManager.TransactionService.DB
+RUN dotnet build "CostManager.TransactionService.API/CostManager.TransactionService.API.csproj" -c Release -o /app/build
+WORKDIR /src/CostManager.TransactionService.API
 
 FROM build AS publish
 RUN dotnet publish "CostManager.TransactionService.API.csproj" -c Release -o /app/publish /p:UseAppHost=false

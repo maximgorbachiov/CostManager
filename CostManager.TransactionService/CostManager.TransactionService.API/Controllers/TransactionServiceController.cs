@@ -1,33 +1,70 @@
+using CostManager.TransactionService.Abstracts.Interfaces;
+using CostManager.TransactionService.Abstracts.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CostManager.TransactionService.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    [Route("api/transactions")]
+    public class TransactionServiceController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+        private readonly ILogger<TransactionServiceController> _logger;
+        private readonly ITransactionRepository _transactionRepository;
 
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public TransactionServiceController(
+            ILogger<TransactionServiceController> logger,
+            ITransactionRepository transactionRepository)
         {
             _logger = logger;
+            _transactionRepository = transactionRepository;
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        [HttpGet]
+        public async Task<IEnumerable<TransactionModel>> GetAllTransactions()
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            _logger.LogInformation("Call to GetAllTransactions method");
+
+            var allTransactions = await _transactionRepository.GetTransactionsListAsync();
+
+            return allTransactions;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddTransaction(AddTransactionModel addTransactionModel)
+        {
+            string infoMessage = new string($"C# HTTP method {nameof(GetAllTransactions)} processes request.");
+            _logger.LogInformation(infoMessage);
+
+            if (string.IsNullOrEmpty(addTransactionModel.CategoryId))
             {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+                string errorMessage = new string($"{nameof(AddTransaction)}: {nameof(addTransactionModel.CategoryId)} should not be empty");
+                _logger.LogError(errorMessage);
+
+                return BadRequest(errorMessage);
+            }
+
+            var transactionId = await _transactionRepository.AddTransactionAsync(addTransactionModel);
+
+            return Ok(transactionId);
+        }
+
+        [HttpDelete("{transactionId}")]
+        public async Task<IActionResult> DeleteTransaction(string transactionId)
+        {
+            string infoMessage = new string($"C# HTTP method {nameof(DeleteTransaction)} processes request.");
+            _logger.LogInformation(infoMessage);
+
+            if (string.IsNullOrEmpty(transactionId))
+            {
+                string errorMessage = $"{nameof(DeleteTransaction)}: {nameof(transactionId)} should not be empty";
+                _logger.LogError(errorMessage);
+
+                return BadRequest(errorMessage);
+            }
+
+            var isRemovedSuccessfully = await _transactionRepository.RemoveTransactionAsync(transactionId);
+
+            return Ok(isRemovedSuccessfully);
         }
     }
 }

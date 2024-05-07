@@ -1,12 +1,14 @@
-﻿namespace CostManager.TransactionService.API.Extensions
+﻿using Microsoft.Azure.Cosmos;
+
+namespace CostManager.TransactionService.API.Extensions
 {
     public static class CosmosDbExtension
     {
-        public static void AddCosmosDb(this IFunctionsHostBuilder builder)
+        public static void AddCosmosDb(this IServiceCollection services)
         {
-            builder.Services.AddSingleton(s =>
+            services.AddSingleton(s =>
             {
-                var configuration = builder.Services
+                var configuration = services
                     .BuildServiceProvider()
                     .GetRequiredService<IConfiguration>();
 

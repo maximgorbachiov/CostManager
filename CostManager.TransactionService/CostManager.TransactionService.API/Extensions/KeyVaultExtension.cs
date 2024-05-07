@@ -1,4 +1,6 @@
-﻿namespace CostManager.TransactionService.API.Extensions
+﻿using Azure.Identity;
+
+namespace CostManager.TransactionService.API.Extensions
 {
     public static class KeyVaultExtension
     {
