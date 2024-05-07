@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business.Data", "Business.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.Data.Models", "Web.Data.Models\Web.Data.Models.csproj", "{6511C6E3-6941-49BF-9560-D7470D83EF11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implementation.Repository.InMemory", "Implementation.Repository.InMemory\Implementation.Repository.InMemory.csproj", "{F9640216-9DF9-4F42-AB71-81B20BDD9D3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implementation.Repository.InMemory", "Implementation.Repository.InMemory\Implementation.Repository.InMemory.csproj", "{F9640216-9DF9-4F42-AB71-81B20BDD9D3D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
