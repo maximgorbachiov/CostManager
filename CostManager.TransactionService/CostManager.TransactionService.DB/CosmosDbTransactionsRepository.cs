@@ -30,6 +30,7 @@ namespace CostManager.TransactionService.DB
                 Description = addTransaction.Description,
                 TransactionDate = addTransaction.TransactionDate,
                 CategoryId = addTransaction.CategoryId,
+                UserId = addTransaction.UserId,
                 partitionKey = "const" // should do some research about this option and changed in future
             };
 
@@ -73,7 +74,8 @@ namespace CostManager.TransactionService.DB
                     PlaceOfTransaction = t.PlaceOfTransaction,
                     Description = t.Description,
                     TransactionDate = t.TransactionDate,
-                    CategoryId = t.CategoryId
+                    CategoryId = t.CategoryId,
+                    UserId = t.UserId
                 }).ToList());
             }
 

@@ -8,5 +8,6 @@
         public string Description { get; set; }
         public string CategoryId { get; set; }
         public DateTime TransactionDate { get; set; }
+        public string UserId { get; set; }
     }
 }

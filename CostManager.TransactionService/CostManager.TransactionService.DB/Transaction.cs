@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CostManager.TransactionService.DB
+﻿namespace CostManager.TransactionService.DB
 {
     public class Transaction
     {
@@ -15,5 +9,6 @@ namespace CostManager.TransactionService.DB
         public string CategoryId { get; set; }
         public string partitionKey { get; set; }
         public DateTime TransactionDate { get; set; }
+        public string UserId { get; set; }
     }
 }
