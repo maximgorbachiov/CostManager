@@ -3,7 +3,7 @@ name: Azure Container Apps Deploy for DEV environment
 on:
   push:
     branches:
-      - dev
+      - dev1
 
 permissions:
   id-token: write
