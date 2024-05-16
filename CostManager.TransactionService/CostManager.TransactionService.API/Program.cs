@@ -14,7 +14,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<ITransactionRepository, CosmosDbTransactionsRepository>();
+builder.Services.AddSingleton<ITransactionRepository, InMemoryTransactionRepository>();
+//builder.Services.AddSingleton<ITransactionRepository, CosmosDbTransactionsRepository>();
 
 var app = builder.Build();
 
