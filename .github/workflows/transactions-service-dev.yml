@@ -10,11 +10,14 @@ permissions:
   contents: read
 
 env:
-  AZURE_CONTAINERREGISTRY_NAME: 'costManagerRegistry'   # set this to your function app name on Azure
+  acrName: '${{ vars.AZURE_COMMON_ACR_NAME }}'
+  containerAppName: '${{ vars.AZURE_TRANSACTION_SERVICE_APP_NAME }}'
+  resourceGroup: '${{ vars.AZURE_TRANSACTION_SERVICE_RG_NAME }}'
 
 jobs:
     build-and-deploy:
         runs-on: ubuntu-latest
+        environment: dev
         steps:
         - name: 'Checkout GitHub Action'
           uses: actions/checkout@main
@@ -32,3 +35,11 @@ jobs:
             pushd './CostManager.TransactionService'
             az acr build --image ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/transactions-service-app-dev:${{ github.sha }} --registry ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }} .
             popd
+
+        - name: Build and deploy Container App
+          uses: azure/container-apps-deploy-action@v1
+          with:
+            acrName: ${{ env.acrName }}
+            containerAppName: ${{ env.containerAppName }}
+            resourceGroup: ${{ env.resourceGroup }}
+            imageToDeploy: ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/transactions-service-app-dev:${{ github.sha }}
