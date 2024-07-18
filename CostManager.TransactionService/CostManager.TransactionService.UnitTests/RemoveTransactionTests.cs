@@ -25,10 +25,11 @@ namespace CostManager.TransactionService.UnitTests
         public async Task Run_ShoultReturnBadRequestObjectResult_WhenCategoryIdIsEmpty()
         {
             // Arrange
+            string userId = string.Empty;
             string transactionId = string.Empty;
 
             // Act
-            var response = await _transactionServiceController.DeleteTransaction(transactionId);
+            var response = await _transactionServiceController.DeleteTransaction(userId, transactionId);
 
             // Assert
             var result = response as BadRequestObjectResult;
@@ -40,11 +41,12 @@ namespace CostManager.TransactionService.UnitTests
         public async Task Run_ShoultReturnOkObjectResult_WhenCategoryIdExists()
         {
             // Arrange
+            string userId = Guid.NewGuid().ToString();
             string transactionId = Guid.NewGuid().ToString();
-            _transactionRepository.RemoveTransactionAsync(Arg.Any<string>()).Returns(true);
+            _transactionRepository.RemoveTransactionAsync(Arg.Any<string>(), Arg.Any<string>()).Returns(true);
 
             // Act
-            var response = await _transactionServiceController.DeleteTransaction(transactionId);
+            var response = await _transactionServiceController.DeleteTransaction(userId, transactionId);
 
             // Assert
             var result = response as OkObjectResult;

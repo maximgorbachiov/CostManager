@@ -49,7 +49,7 @@ namespace CostManager.TransactionService.API.Controllers
         }
 
         [HttpDelete("{transactionId}")]
-        public async Task<IActionResult> DeleteTransaction(string transactionId)
+        public async Task<IActionResult> DeleteTransaction(string userId, string transactionId)
         {
             string infoMessage = new string($"C# HTTP method {nameof(DeleteTransaction)} processes request.");
             _logger.LogInformation(infoMessage);
@@ -62,7 +62,7 @@ namespace CostManager.TransactionService.API.Controllers
                 return BadRequest(errorMessage);
             }
 
-            var isRemovedSuccessfully = await _transactionRepository.RemoveTransactionAsync(transactionId);
+            var isRemovedSuccessfully = await _transactionRepository.RemoveTransactionAsync(userId, transactionId);
 
             return Ok(isRemovedSuccessfully);
         }

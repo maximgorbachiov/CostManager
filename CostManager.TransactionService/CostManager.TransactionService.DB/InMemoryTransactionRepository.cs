@@ -11,7 +11,7 @@ namespace CostManager.TransactionService.DB
         {
             var transaction = new Transaction
             {
-                id = Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid().ToString(),
                 Sum = addTransaction.Sum,
                 PlaceOfTransaction = addTransaction.PlaceOfTransaction,
                 Description = addTransaction.Description,
@@ -21,14 +21,14 @@ namespace CostManager.TransactionService.DB
 
             _transactions.Add(transaction);
 
-            return await Task.FromResult(transaction.id);
+            return await Task.FromResult(transaction.Id);
         }
 
         public async Task<List<TransactionModel>> GetTransactionsListAsync()
         {
             var result = _transactions.Select(t => new TransactionModel
             {
-                TransactionId = t.id,
+                TransactionId = t.Id,
                 Sum = t.Sum,
                 PlaceOfTransaction = t.PlaceOfTransaction,
                 Description = t.Description,
@@ -39,9 +39,9 @@ namespace CostManager.TransactionService.DB
             return await Task.FromResult(result);
         }
 
-        public async Task<bool> RemoveTransactionAsync(string transactionId)
+        public async Task<bool> RemoveTransactionAsync(string userId, string transactionId)
         {
-            var transaction = _transactions.FirstOrDefault(t => t.id == transactionId);
+            var transaction = _transactions.FirstOrDefault(t => t.Id == transactionId);
             
             bool result = transaction != null;            
 
