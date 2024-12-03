@@ -12,7 +12,7 @@ namespace CostManager.TransactionService.API.Extensions
                     .BuildServiceProvider()
                     .GetRequiredService<IConfiguration>();
 
-                string connectionString = configuration.GetValue<string>("transactions-db-primaryConnectionString");
+                string connectionString = configuration.GetValue<string>("cost-manager-common-db-connection-string");
 
                 return new CosmosClient(connectionString: connectionString);
             });

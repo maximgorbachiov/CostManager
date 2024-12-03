@@ -24,13 +24,13 @@ namespace CostManager.TransactionService.DB
 
             var transaction = new Transaction
             {
-                Id = Guid.NewGuid().ToString(),
+                id = Guid.NewGuid().ToString(),
                 Sum = addTransaction.Sum,
                 PlaceOfTransaction = addTransaction.PlaceOfTransaction,
                 Description = addTransaction.Description,
                 TransactionDate = addTransaction.TransactionDate,
                 CategoryId = addTransaction.CategoryId,
-                UserId = addTransaction.UserId
+                userId = addTransaction.UserId
             };
 
             Transaction createdItem = null;
@@ -44,7 +44,7 @@ namespace CostManager.TransactionService.DB
                 _logger.LogError(ex, ex.Message);
             }
 
-            return createdItem?.Id ?? string.Empty;
+            return createdItem?.id ?? string.Empty;
         }
 
         public async Task<List<TransactionModel>> GetTransactionsListAsync()
@@ -54,7 +54,7 @@ namespace CostManager.TransactionService.DB
             var container = await GetTransactionsContainer();
 
             var query = new QueryDefinition(
-                query: "SELECT * FROM transactions-items t"
+                query: "SELECT * FROM transactions t"
             );
 
             using FeedIterator<Transaction> iterator = container.GetItemQueryIterator<Transaction>(queryDefinition: query);
@@ -65,13 +65,13 @@ namespace CostManager.TransactionService.DB
 
                 result.AddRange(response.Select(t => new TransactionModel
                 {
-                    TransactionId = t.Id,
+                    TransactionId = t.id,
                     Sum = t.Sum,
                     PlaceOfTransaction = t.PlaceOfTransaction,
                     Description = t.Description,
                     TransactionDate = t.TransactionDate,
                     CategoryId = t.CategoryId,
-                    UserId = t.UserId
+                    UserId = t.userId
                 }).ToList());
             }
 
@@ -99,11 +99,11 @@ namespace CostManager.TransactionService.DB
         private async Task<Container> GetTransactionsContainer()
         {
             Database database = await _cosmosClient.CreateDatabaseIfNotExistsAsync(
-                id: "transaction-service-db", 
+                id: "cost-manager-common-db", 
                 ThroughputProperties.CreateAutoscaleThroughput(1000));
 
             Container container = await database.CreateContainerIfNotExistsAsync(
-                id: "transactions",
+                id: "transactions-container",
                 partitionKeyPath: "/userId",
                 throughput: 1000);
 

@@ -1,8 +1,18 @@
+using System.Reflection;
 using CostManager.TransactionService.Abstracts.Interfaces;
 using CostManager.TransactionService.API.Extensions;
 using CostManager.TransactionService.DB;
 
 var builder = WebApplication.CreateBuilder(args);
+
+if (builder.Environment.IsDevelopment())
+{
+    var appAssembly = Assembly.Load(new AssemblyName(builder.Environment.ApplicationName));
+    if (appAssembly != null)
+    {
+        builder.Configuration.AddUserSecrets(appAssembly, optional: true);
+    }
+}
 
 builder.AddKeyVault();
 
