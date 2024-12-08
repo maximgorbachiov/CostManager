@@ -30,18 +30,14 @@ namespace CostManager.TransactionService.DB
                 Description = addTransaction.Description,
                 TransactionDate = addTransaction.TransactionDate,
                 CategoryId = addTransaction.CategoryId,
-                UserId = addTransaction.UserId,
-                partitionKey = "const" // should do some research about this option and changed in future
+                userId = addTransaction.UserId
             };
 
             Transaction createdItem = null;
 
             try
             {
-                createdItem = await container.CreateItemAsync(
-                    item: transaction,
-                    partitionKey: new PartitionKey(transaction.partitionKey)
-                );
+                createdItem = await container.CreateItemAsync(item: transaction);
             }
             catch (Exception ex)
             {
@@ -58,7 +54,7 @@ namespace CostManager.TransactionService.DB
             var container = await GetTransactionsContainer();
 
             var query = new QueryDefinition(
-                query: "SELECT * FROM transactionsList t"
+                query: "SELECT * FROM transactions t"
             );
 
             using FeedIterator<Transaction> iterator = container.GetItemQueryIterator<Transaction>(queryDefinition: query);
@@ -75,14 +71,14 @@ namespace CostManager.TransactionService.DB
                     Description = t.Description,
                     TransactionDate = t.TransactionDate,
                     CategoryId = t.CategoryId,
-                    UserId = t.UserId
+                    UserId = t.userId
                 }).ToList());
             }
 
             return result;
         }
 
-        public async Task<bool> RemoveTransactionAsync(string transactionId)
+        public async Task<bool> RemoveTransactionAsync(string userId, string transactionId)
         {
             var container = await GetTransactionsContainer();
 
@@ -90,7 +86,7 @@ namespace CostManager.TransactionService.DB
             {
                 _ = await container.DeleteItemAsync<Transaction>(
                     id: transactionId,
-                    partitionKey: new PartitionKey("const"));
+                    partitionKey: new PartitionKey(userId));
 
                 return true;
             }
@@ -102,10 +98,13 @@ namespace CostManager.TransactionService.DB
 
         private async Task<Container> GetTransactionsContainer()
         {
-            Database database = await _cosmosClient.CreateDatabaseIfNotExistsAsync(id: "TransactionsStorageDB");
+            Database database = await _cosmosClient.CreateDatabaseIfNotExistsAsync(
+                id: "cost-manager-common-db", 
+                ThroughputProperties.CreateAutoscaleThroughput(1000));
+
             Container container = await database.CreateContainerIfNotExistsAsync(
-                id: "transactionsList",
-                partitionKeyPath: "/partitionKey",
+                id: "transactions-container",
+                partitionKeyPath: "/userId",
                 throughput: 1000);
 
             return container;

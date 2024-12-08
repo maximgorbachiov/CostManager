@@ -12,13 +12,9 @@ namespace CostManager.TransactionService.API.Extensions
                     .BuildServiceProvider()
                     .GetRequiredService<IConfiguration>();
 
-                string endpoint = configuration.GetValue<string>("transactions-cosmosdb-endpoint");
-                string authToken = configuration.GetValue<string>("transactions-cosmosdb-authtoken");
+                string connectionString = configuration.GetValue<string>("cost-manager-common-db-connection-string");
 
-                return new CosmosClient(
-                    accountEndpoint: endpoint,
-                    authKeyOrResourceToken: authToken
-                );
+                return new CosmosClient(connectionString: connectionString);
             });
         }
     }

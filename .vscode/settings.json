@@ -1,0 +1,3 @@
+{
+    "dotnet.defaultSolution": "CostManager.TransactionService\\CostManager.TransactionService.sln"
+}

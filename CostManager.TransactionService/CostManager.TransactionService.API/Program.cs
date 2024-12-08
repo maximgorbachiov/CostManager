@@ -1,8 +1,18 @@
+using System.Reflection;
 using CostManager.TransactionService.Abstracts.Interfaces;
 using CostManager.TransactionService.API.Extensions;
 using CostManager.TransactionService.DB;
 
 var builder = WebApplication.CreateBuilder(args);
+
+if (builder.Environment.IsDevelopment())
+{
+    var appAssembly = Assembly.Load(new AssemblyName(builder.Environment.ApplicationName));
+    if (appAssembly != null)
+    {
+        builder.Configuration.AddUserSecrets(appAssembly, optional: true);
+    }
+}
 
 builder.AddKeyVault();
 
@@ -14,8 +24,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<ITransactionRepository, InMemoryTransactionRepository>();
-//builder.Services.AddSingleton<ITransactionRepository, CosmosDbTransactionsRepository>();
+//builder.Services.AddSingleton<ITransactionRepository, InMemoryTransactionRepository>();
+builder.Services.AddSingleton<ITransactionRepository, CosmosDbTransactionsRepository>();
 
 var app = builder.Build();
 

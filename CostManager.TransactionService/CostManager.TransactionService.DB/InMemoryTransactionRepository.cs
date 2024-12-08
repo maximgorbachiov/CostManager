@@ -39,7 +39,7 @@ namespace CostManager.TransactionService.DB
             return await Task.FromResult(result);
         }
 
-        public async Task<bool> RemoveTransactionAsync(string transactionId)
+        public async Task<bool> RemoveTransactionAsync(string userId, string transactionId)
         {
             var transaction = _transactions.FirstOrDefault(t => t.id == transactionId);
             

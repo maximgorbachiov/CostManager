@@ -8,6 +8,6 @@ namespace CostManager.TransactionService.Abstracts.Interfaces
 
         Task<List<TransactionModel>> GetTransactionsListAsync();
 
-        Task<bool> RemoveTransactionAsync(string transactionId);
+        Task<bool> RemoveTransactionAsync(string userId, string transactionId);
     }
 }
