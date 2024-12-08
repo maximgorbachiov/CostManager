@@ -1,0 +1,13 @@
+﻿services:
+  costmanager.transactionservice.api:
+    container_name: transactions-service
+    image: transactions-service
+    build:
+      context: .
+      dockerfile: CostManager.TransactionService.API/Dockerfile
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+      - "443:443"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development 
