@@ -11,6 +11,7 @@ permissions:
 
 env:
   acrName: '${{ vars.AZURE_COMMON_ACR_NAME }}'
+  # Should be updated after container app will be deployed
   containerAppName: '${{ vars.AZURE_TRANSACTION_SERVICE_APP_NAME }}'
   resourceGroup: '${{ vars.AZURE_TRANSACTION_SERVICE_RG_NAME }}'
 
@@ -25,6 +26,7 @@ jobs:
         - name: 'Login via Azure CLI'
           uses: azure/login@v1
           with:
+            # Github application registration client id
             client-id: ${{ secrets.AZURE_APPLICATION_REGISTRATION_ID }}
             tenant-id: ${{ secrets.AZURE_TENANT_ID }}
             subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
@@ -33,7 +35,7 @@ jobs:
           id: build-image
           run: |
             pushd './CostManager.TransactionService'
-            az acr build --image ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/transactions-service-app-dev:${{ github.sha }} --registry ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }} .
+            az acr build --image ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/dev-transactions-service-app:${{ github.sha }} --registry ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }} .
             popd
 
         #- name: Deploy Container App
@@ -41,10 +43,11 @@ jobs:
         #  run: |
         #    az containerapp update --name ${{ env.containerAppName }} --resource-group ${{ env.resourceGroup }} --image ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/transactions-service-app-dev:${{ github.sha }}
 
-        - name: Build and deploy Container App
-          uses: azure/container-apps-deploy-action@v1
-          with:
-            acrName: ${{ env.acrName }}
-            containerAppName: ${{ env.containerAppName }}
-            resourceGroup: ${{ env.resourceGroup }}
-            imageToDeploy: ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/transactions-service-app-dev:${{ github.sha }}
+        # UNBLOCK WHEN AZURE CONTAINER APP WILL BE DEPLOYED
+        #- name: Build and deploy Container App
+        #  uses: azure/container-apps-deploy-action@v1
+        #  with:
+        #    acrName: ${{ env.acrName }}
+        #    containerAppName: ${{ env.containerAppName }}
+        #    resourceGroup: ${{ env.resourceGroup }}
+        #    imageToDeploy: ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/transactions-service-app-dev:${{ github.sha }}
