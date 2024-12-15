@@ -24,7 +24,7 @@ jobs:
           uses: actions/checkout@main
 
         - name: 'Login via Azure CLI'
-          uses: azure/login@v1
+          uses: azure/login@v2
           with:
             # Github application registration client id
             client-id: ${{ secrets.AZURE_APPLICATION_REGISTRATION_ID }}
