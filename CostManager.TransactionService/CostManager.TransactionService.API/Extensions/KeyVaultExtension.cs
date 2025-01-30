@@ -17,15 +17,22 @@ namespace CostManager.TransactionService.API.Extensions
             var keyVaultSection = builder.Configuration.GetRequiredSection("KeyVault");
             var keyVaultOption = keyVaultSection.Get<KeyVaultOption>();
 
-            if (!string.IsNullOrEmpty(keyVaultOption.Uri))
+            try
             {
-                var keyVaultUri = new Uri(keyVaultOption.Uri);
+                if (!string.IsNullOrEmpty(keyVaultOption.Uri))
+                {
+                    var keyVaultUri = new Uri(keyVaultOption.Uri);
 
-                TokenCredential credential = builder.Environment.IsDevelopment() 
-                    ? new ClientSecretCredential(tenantId, clientId, clientSecret) 
-                    : new DefaultAzureCredential();
+                    TokenCredential credential = builder.Environment.IsDevelopment() 
+                        ? new ClientSecretCredential(tenantId, clientId, clientSecret) 
+                        : new DefaultAzureCredential();
 
-                builder.Configuration.AddAzureKeyVault(keyVaultUri, credential);
+                    builder.Configuration.AddAzureKeyVault(keyVaultUri, credential);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
 
             return builder;
