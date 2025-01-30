@@ -14,7 +14,16 @@ namespace CostManager.TransactionService.API.Extensions
 
                 string connectionString = configuration.GetValue<string>("cost-manager-common-db-connection-string");
 
-                return new CosmosClient(connectionString: connectionString);
+                CosmosClient client = null;
+                try
+                {
+                    client = new CosmosClient(connectionString);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                return client;
             });
         }
     }
