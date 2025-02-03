@@ -50,7 +50,7 @@ jobs:
         - name: Deploy Container App
           id: deploy-image
           run: |
-            az containerapp update --name ${{ env.transactionsServiceAppName }} --resource-group ${{ env.categoryServiceRg }} --image ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/dev-transactions-service-app:${{ github.sha }}
+            az containerapp update --name ${{ env.TRANSACTIONS_SERVICE_APP_NAME }} --resource-group ${{ env.CATEGORY_SERVICE_RG }} --image ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/dev-transactions-service-app:${{ github.sha }}
 
         # Move transactions service container app to the transactions rg instead of category rg
         # UNBLOCK WHEN AZURE CONTAINER APP WILL BE DEPLOYED
@@ -58,6 +58,6 @@ jobs:
         #  uses: azure/container-apps-deploy-action@v1
         #  with:
         #    acrName: ${{ env.acrName }}
-        #    containerAppName: ${{ env.transactionsServiceAppName }}
-        #    resourceGroup: ${{ env.categoryServiceRg }}
+        #    containerAppName: ${{ env.TRANSACTIONS_SERVICE_APP_NAME }}
+        #    resourceGroup: ${{ env.CATEGORY_SERVICE_RG }}
         #    imageToDeploy: ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/transactions-service-app-dev:${{ github.sha }}
