@@ -28,3 +28,5 @@ Using:
             ctrl + z (to exit attached terminal)
             docker logs -f {SERVICE_NAME_FROM_DOCKER_COMPOSE_FILE} (check container logs)
             ctrl + c (exit container logs)
+    2) For Azure when you try to setup your infrastructure you should:
+        2.x) Enable ingress for Container App (https://azureossd.github.io/2023/03/22/Troubleshooting-ingress-issues-on-Azure-Container-Apps/)
