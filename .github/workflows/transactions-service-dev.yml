@@ -11,9 +11,9 @@ permissions:
 
 env:
   acrName: '${{ vars.AZURE_COMMON_ACR_NAME }}'
-  # Should be updated after container app will be deployed
-  containerAppName: '${{ vars.AZURE_TRANSACTION_SERVICE_APP_NAME }}'
-  resourceGroup: '${{ vars.AZURE_TRANSACTION_SERVICE_RG_NAME }}'
+  # Transactions service app should be moved to the transactions-service-rg instead of category service rg
+  containerAppName: '${{ vars.TRANSACTIONS_SERVICE_APP_NAME }}'
+  resourceGroup: '${{ vars.CATEGORY_SERVICE_RG }}'
 
 jobs:
     build-and-deploy:
@@ -46,48 +46,16 @@ jobs:
             az acr build --image ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/dev-transactions-service-app:${{ github.sha }} --registry ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }} .
             popd
 
-        - name: Dump GitHub context
-          env:
-            GITHUB_CONTEXT: ${{ toJson(github) }}
-          run: echo "$GITHUB_CONTEXT"
-
-        - name: Dump job context
-          env:
-            JOB_CONTEXT: ${{ toJson(job) }}
-          run: echo "$JOB_CONTEXT"
-
-        - name: Dump steps context
-          env:
-            STEPS_CONTEXT: ${{ toJson(steps) }}
-          run: echo "$STEPS_CONTEXT"
-
-        - name: Dump runner context
-          env:
-            RUNNER_CONTEXT: ${{ toJson(runner) }}
-          run: echo "$RUNNER_CONTEXT"
-
-        - name: Dump strategy context
-          env:
-            STRATEGY_CONTEXT: ${{ toJson(strategy) }}
-          run: echo "$STRATEGY_CONTEXT"
-
-        - name: Dump matrix context
-          env:
-            MATRIX_CONTEXT: ${{ toJson(matrix) }}
-          run: echo "$MATRIX_CONTEXT"
-
-        # Move transactions service container app to the transactions rg instead of category rg
         - name: Deploy Container App
           id: deploy-image
           run: |
-            az containerapp update --name ${{ env.TRANSACTIONS_SERVICE_APP_NAME }} --resource-group ${{ env.CATEGORY_SERVICE_RG }} --image ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/dev-transactions-service-app:${{ github.sha }}
+            az containerapp update --name ${{ env.containerAppName }} --resource-group ${{ env.resourceGroup }} --image ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/dev-transactions-service-app:${{ github.sha }}
 
-        # Move transactions service container app to the transactions rg instead of category rg
         # UNBLOCK WHEN AZURE CONTAINER APP WILL BE DEPLOYED
         #- name: Build and deploy Container App
         #  uses: azure/container-apps-deploy-action@v1
         #  with:
         #    acrName: ${{ env.acrName }}
-        #    containerAppName: ${{ env.TRANSACTIONS_SERVICE_APP_NAME }}
-        #    resourceGroup: ${{ env.CATEGORY_SERVICE_RG }}
+        #    containerAppName: ${{ env.containerAppName }}
+        #    resourceGroup: ${{ env.resourceGroup }}
         #    imageToDeploy: ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/transactions-service-app-dev:${{ github.sha }}
