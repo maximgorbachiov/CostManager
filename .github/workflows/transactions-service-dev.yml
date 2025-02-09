@@ -13,6 +13,7 @@ env:
   acrName: '${{ vars.AZURE_COMMON_ACR_NAME }}'
   containerAppName: '${{ vars.TRANSACTIONS_SERVICE_APP_NAME }}'
   resourceGroup: '${{ vars.TRANSACTION_SERVICE_RG }}'
+  DOTNET_VERSION: '6.0.x'
 
 jobs:
     build-and-deploy:
@@ -39,17 +40,22 @@ jobs:
               az account show
               az resource list
 
-        - name: Build and push image
-          id: build-image
-          run: |
-            pushd './CostManager.TransactionService'
-            az acr build --image ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/dev-transactions-service-app:${{ github.sha }} --registry ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }} .
-            popd
+        - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
+          uses: actions/setup-dotnet@v3
+          with:
+            dotnet-version: ${{ env.DOTNET_VERSION }}
 
         - name: Run Unit tests
           run: |
             pushd './CostManager.TransactionService/CostManager.TransactionService.UnitTests'
             dotnet test
+            popd
+
+        - name: Build and push image
+          id: build-image
+          run: |
+            pushd './CostManager.TransactionService'
+            az acr build --image ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/dev-transactions-service-app:${{ github.sha }} --registry ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }} .
             popd
 
         - name: Deploy Container App
