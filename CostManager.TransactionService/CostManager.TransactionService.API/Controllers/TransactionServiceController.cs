@@ -48,7 +48,7 @@ namespace CostManager.TransactionService.API.Controllers
             return Ok(transactionId);
         }
 
-        [HttpDelete("{transactionId}")]
+        [HttpDelete("{userId}/{transactionId}")]
         public async Task<IActionResult> DeleteTransaction(string userId, string transactionId)
         {
             string infoMessage = new string($"C# HTTP method {nameof(DeleteTransaction)} processes request.");
