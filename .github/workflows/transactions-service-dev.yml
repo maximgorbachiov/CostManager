@@ -11,9 +11,8 @@ permissions:
 
 env:
   acrName: '${{ vars.AZURE_COMMON_ACR_NAME }}'
-  # Transactions service app should be moved to the transactions-service-rg instead of category service rg
   containerAppName: '${{ vars.TRANSACTIONS_SERVICE_APP_NAME }}'
-  resourceGroup: '${{ vars.CATEGORY_SERVICE_RG }}'
+  resourceGroup: '${{ vars.TRANSACTION_SERVICE_RG }}'
 
 jobs:
     build-and-deploy:
