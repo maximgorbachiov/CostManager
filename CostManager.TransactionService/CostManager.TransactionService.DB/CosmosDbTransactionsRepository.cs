@@ -37,7 +37,9 @@ namespace CostManager.TransactionService.DB
 
             try
             {
-                createdItem = await container.CreateItemAsync(item: transaction);
+                createdItem = await container.CreateItemAsync(
+                    item: transaction, 
+                    partitionKey: new PartitionKey(transaction.userId));
             }
             catch (Exception ex)
             {
