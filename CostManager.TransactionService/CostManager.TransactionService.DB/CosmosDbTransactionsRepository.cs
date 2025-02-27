@@ -24,13 +24,13 @@ namespace CostManager.TransactionService.DB
 
             var transaction = new Transaction
             {
-                id = Guid.NewGuid().ToString(),
+                TransactionId = Guid.NewGuid().ToString(),
                 Sum = addTransaction.Sum,
                 PlaceOfTransaction = addTransaction.PlaceOfTransaction,
                 Description = addTransaction.Description,
                 TransactionDate = addTransaction.TransactionDate,
                 CategoryId = addTransaction.CategoryId,
-                userId = addTransaction.UserId
+                UserId = addTransaction.UserId
             };
 
             Transaction createdItem = null;
@@ -39,14 +39,14 @@ namespace CostManager.TransactionService.DB
             {
                 createdItem = await container.CreateItemAsync(
                     item: transaction, 
-                    partitionKey: new PartitionKey(transaction.userId));
+                    partitionKey: new PartitionKey(transaction.UserId));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
             }
 
-            return createdItem?.id ?? string.Empty;
+            return createdItem?.TransactionId ?? string.Empty;
         }
 
         public async Task<List<TransactionModel>> GetTransactionsListAsync()
@@ -67,13 +67,13 @@ namespace CostManager.TransactionService.DB
 
                 result.AddRange(response.Select(t => new TransactionModel
                 {
-                    TransactionId = t.id,
+                    TransactionId = t.TransactionId,
                     Sum = t.Sum,
                     PlaceOfTransaction = t.PlaceOfTransaction,
                     Description = t.Description,
                     TransactionDate = t.TransactionDate,
                     CategoryId = t.CategoryId,
-                    UserId = t.userId
+                    UserId = t.UserId
                 }).ToList());
             }
 
