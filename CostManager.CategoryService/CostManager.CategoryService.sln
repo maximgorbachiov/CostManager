@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CostManager.CategoryService", "CostManager.CategoryService\CostManager.CategoryService.csproj", "{77376450-0230-4DAD-A0D5-8BE43E7662D4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CostManager.CategoryService.Abstracts", "CostManager.CategoryService.Abstracts\CostManager.CategoryService.Abstracts.csproj", "{DD6E17FA-90B6-46D0-B49F-8BBD526466BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{77376450-0230-4DAD-A0D5-8BE43E7662D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77376450-0230-4DAD-A0D5-8BE43E7662D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77376450-0230-4DAD-A0D5-8BE43E7662D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD6E17FA-90B6-46D0-B49F-8BBD526466BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD6E17FA-90B6-46D0-B49F-8BBD526466BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD6E17FA-90B6-46D0-B49F-8BBD526466BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD6E17FA-90B6-46D0-B49F-8BBD526466BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
