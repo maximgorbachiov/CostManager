@@ -1,0 +1,19 @@
+# Trigger Azure Function - AddCategory
+#
+# More information can be found in the Azure Functions documentation,
+# as well as examples on how to pass test data to a function:
+# https://learn.microsoft.com/en-us/azure/azure-functions/functions-manually-run-non-http
+#
+# Make sure to update the below calls to suit your function host and port.
+#
+# Call the following endpoint to locally run HTTP and webhook-triggered functions:
+
+POST http://localhost:7275/api/category/add
+Content-Type: application/json
+
+{
+  "UserId": "1",
+  "Title": "TestCategory",
+  "Description": "Test category for local api check",
+  "ParentCategoryId": null
+}

@@ -3,7 +3,7 @@
     "CostManager.CategoryService": {
       "commandName": "Project",
       "commandLineArgs": "--port 7275",
-      "launchBrowser": false
+      "launchBrowser": true
     }
   }
 }

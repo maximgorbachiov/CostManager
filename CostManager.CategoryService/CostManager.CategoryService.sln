@@ -4,6 +4,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CostManager.CategoryService
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CostManager.CategoryService.Abstracts", "CostManager.CategoryService.Abstracts\CostManager.CategoryService.Abstracts.csproj", "{DD6E17FA-90B6-46D0-B49F-8BBD526466BE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CostManager.CategoryService.Repositories", "CostManager.CategoryService.Repositories\CostManager.CategoryService.Repositories.csproj", "{1578537A-93AB-432D-90C6-D270DA408E5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CostManager.CategoryService.BusinessLogic", "CostManager.CategoryService.BusinessLogic\CostManager.CategoryService.BusinessLogic.csproj", "{93A783EC-521E-4BBF-9454-8B8884A43326}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,13 @@ Global
 		{DD6E17FA-90B6-46D0-B49F-8BBD526466BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD6E17FA-90B6-46D0-B49F-8BBD526466BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD6E17FA-90B6-46D0-B49F-8BBD526466BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1578537A-93AB-432D-90C6-D270DA408E5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1578537A-93AB-432D-90C6-D270DA408E5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1578537A-93AB-432D-90C6-D270DA408E5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1578537A-93AB-432D-90C6-D270DA408E5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93A783EC-521E-4BBF-9454-8B8884A43326}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93A783EC-521E-4BBF-9454-8B8884A43326}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93A783EC-521E-4BBF-9454-8B8884A43326}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93A783EC-521E-4BBF-9454-8B8884A43326}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

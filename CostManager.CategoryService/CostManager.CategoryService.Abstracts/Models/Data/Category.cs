@@ -6,6 +6,7 @@ public class Category
 {
     [JsonProperty("id")]
     public string CategoryId { get; set; }
+    
     [JsonProperty("userId")]
     public string UserId { get; set; }
     
