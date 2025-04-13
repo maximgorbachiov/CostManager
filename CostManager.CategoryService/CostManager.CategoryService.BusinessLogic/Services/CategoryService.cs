@@ -14,7 +14,7 @@ public class CategoryService : ICategoryService
         _categoryRepository = categoryRepository;
     }
 
-    public async Task<string> AddCategory(NewCategoryViewModel newCategoryVm)
+    public async Task<Guid> AddCategory(NewCategoryViewModel newCategoryVm)
     {
         var category = newCategoryVm.ToCategory();
         var categoryId = await _categoryRepository.AddCategory(category);
@@ -28,34 +28,41 @@ public class CategoryService : ICategoryService
         return success;
     }
 
-    public async Task<CategoryViewModel> GetCategoryById(string userId, string categoryId)
+    public async Task<CategoryViewModel> GetCategoryById(Guid userId, Guid categoryId)
     {
         var category = await _categoryRepository.GetCategoryById(userId, categoryId);
         var result = category?.FromCategory();
         return result;
     }
 
-    public async Task<CategoryViewModel> GetCategoryByName(string userId, string categoryName)
+    public async Task<CategoryViewModel> GetCategoryByName(Guid userId, string categoryName)
     {
         var category = await _categoryRepository.GetCategoryByName(userId, categoryName);
         var result = category?.FromCategory();
         return result;
     }
 
-    public async Task<List<CategoryViewModel>> GetCategories(string userId)
+    public async Task<List<CategoryViewModel>> GetCategories(Guid userId)
     {
         var categories = await _categoryRepository.GetCategories(userId);
         var result = categories?.Select(c => c.FromCategory()).ToList();
         return result;
     }
+    
+    public async Task<CategoryWithChildrenViewModel?> GetCategoryWithChildren(Guid userId, Guid categoryId)
+    {
+        var categoryWithChildren = await _categoryRepository.GetCategoryWithChildren(userId, categoryId);
+        var result = categoryWithChildren?.FromCategory();
+        return result;
+    }
 
-    public async Task<bool> RemoveCategory(string userId, string categoryId)
+    public async Task<bool> RemoveCategory(Guid userId, Guid categoryId)
     {
         var isRemoved = await _categoryRepository.RemoveCategory(userId, categoryId);
         return isRemoved;
     }
 
-    public async Task<bool> RemoveCategories(string userId)
+    public async Task<bool> RemoveCategories(Guid userId)
     {
         var isRemoved = await _categoryRepository.RemoveCategories(userId);
         return isRemoved;

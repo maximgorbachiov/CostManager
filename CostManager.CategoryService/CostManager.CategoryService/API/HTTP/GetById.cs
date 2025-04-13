@@ -19,9 +19,9 @@ public class GetById
 
     [Function("GetById")]
     public async Task<IActionResult> Run(
-        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "category/get/{userId:alpha}/{categoryId:alpha}")] HttpRequest req,
-        string userId,
-        string categoryId)
+        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "category/getById/{userId:guid}/{categoryId:guid}")] HttpRequest req,
+        Guid userId,
+        Guid categoryId)
     {
         _logger.LogInformation("Start processing Get category by Id trigger function request.");
         var result = await _categoryService.GetCategoryById(userId, categoryId);

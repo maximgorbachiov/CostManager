@@ -1,19 +1,44 @@
-# Trigger Azure Function - AddCategory
-#
-# More information can be found in the Azure Functions documentation,
-# as well as examples on how to pass test data to a function:
-# https://learn.microsoft.com/en-us/azure/azure-functions/functions-manually-run-non-http
-#
-# Make sure to update the below calls to suit your function host and port.
-#
-# Call the following endpoint to locally run HTTP and webhook-triggered functions:
+// Setting userId global var
+//@userId = "{{$random.uuid}}"
+@userId = {{$random.uuid}}
 
+###
+
+// Call AddCategory function to create new category
+# @name AddCategory
+# @timeout 600
 POST http://localhost:7275/api/category/add
 Content-Type: application/json
 
 {
-  "UserId": "1",
+  "UserId": "{{userId}}",
   "Title": "TestCategory",
   "Description": "Test category for local api check",
   "ParentCategoryId": null
 }
+
+> {%
+    // Save newly added categoryId to the global var
+    client.global.set("guid", response.body); 
+%}
+
+###
+
+# @name CheckCategoryWasAdded
+# @timeout 600
+// Check that recently created category was really added
+GET http://localhost:7275/api/category/getById/{{userId}}/{{guid}}
+
+###
+
+# @name DeleteCategory
+# @timeout 600
+// Clear test data
+DELETE http://localhost:7275/api/category/remove/{{userId}}/{{guid}}
+
+###
+
+# @name CheckCategoryWasDeleted
+# @timeout 600
+// Check that recently created category was really added
+GET http://localhost:7275/api/category/getById/{{userId}}/{{guid}}

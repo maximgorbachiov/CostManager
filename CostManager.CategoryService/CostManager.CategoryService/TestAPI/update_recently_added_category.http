@@ -1,0 +1,12 @@
+### GET request to example server
+POST http://localhost:7275/api/category/add
+Content-Type: application/json
+
+{
+  "UserId": "1",
+  "Title": "TestCategory",
+  "Description": "Test category for local api check",
+  "ParentCategoryId": null
+}
+
+###

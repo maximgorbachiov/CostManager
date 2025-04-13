@@ -4,12 +4,12 @@ namespace CostManager.CategoryService.Abstracts.Interfaces.Data;
 
 public interface ICategoryRepository
 {
-    Task<string> AddCategory(Category category);
+    Task<Guid> AddCategory(Category category);
     Task<bool> UpdateCategory(Category category);
-    Task<Category?> GetCategoryById(string userId, string categoryId);
-    Task<Category?> GetCategoryByName(string userId, string categoryName);
-    Task<List<Category>?> GetCategories(string userId);
-    Task<CategoryWithChildren?> GetCategoryWithChildren(string userId, string categoryId);
-    Task<bool> RemoveCategory(string userId, string categoryId);
-    Task<bool> RemoveCategories(string userId);
+    Task<Category?> GetCategoryById(Guid userId, Guid categoryId);
+    Task<Category?> GetCategoryByName(Guid userId, string categoryName);
+    Task<List<Category>?> GetCategories(Guid userId);
+    Task<CategoryWithChildren?> GetCategoryWithChildren(Guid userId, Guid categoryId);
+    Task<bool> RemoveCategory(Guid userId, Guid categoryId);
+    Task<bool> RemoveCategories(Guid userId);
 }

@@ -4,11 +4,12 @@ namespace CostManager.CategoryService.Abstracts.Interfaces.Business;
 
 public interface ICategoryService
 {
-    Task<string> AddCategory(NewCategoryViewModel newCategoryVm);
+    Task<Guid> AddCategory(NewCategoryViewModel newCategoryVm);
     Task<bool> UpdateCategory(CategoryViewModel categoryVm);
-    Task<CategoryViewModel> GetCategoryById(string userId, string categoryId);
-    Task<CategoryViewModel> GetCategoryByName(string userId, string categoryName);
-    Task<List<CategoryViewModel>> GetCategories(string userId);
-    Task<bool> RemoveCategory(string userId, string categoryId);
-    Task<bool> RemoveCategories(string userId);
+    Task<CategoryViewModel> GetCategoryById(Guid userId, Guid categoryId);
+    Task<CategoryViewModel> GetCategoryByName(Guid userId, string categoryName);
+    Task<List<CategoryViewModel>> GetCategories(Guid userId);
+    Task<CategoryWithChildrenViewModel?> GetCategoryWithChildren(Guid userId, Guid categoryId);
+    Task<bool> RemoveCategory(Guid userId, Guid categoryId);
+    Task<bool> RemoveCategories(Guid userId);
 }

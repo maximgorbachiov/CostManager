@@ -1,0 +1,7 @@
+@userId = {{$random.uuid}}
+@guid = {{$random.uuid}}
+
+# @name GetUserById
+# @timeout 600
+// Check that recently created category was really added
+GET http://localhost:7275/api/category/getById/{{userId}}/{{guid}}

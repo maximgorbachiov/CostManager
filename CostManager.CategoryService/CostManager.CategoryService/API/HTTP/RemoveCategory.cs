@@ -19,9 +19,9 @@ public class RemoveCategory
 
     [Function("RemoveCategory")]
     public async Task<IActionResult> Run(
-        [HttpTrigger(AuthorizationLevel.Function, "delete", Route = "category/remove/{userId:alpha}/{categoryId:alpha}")] HttpRequest req,
-        string userId,
-        string categoryId)
+        [HttpTrigger(AuthorizationLevel.Function, "delete", Route = "category/remove/{userId:guid}/{categoryId:guid}")] HttpRequest req,
+        Guid userId,
+        Guid categoryId)
     {
         _logger.LogInformation("Start processing Remove category trigger function request.");
         var result = await _categoryService.RemoveCategory(userId, categoryId);

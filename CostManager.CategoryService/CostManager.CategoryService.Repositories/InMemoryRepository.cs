@@ -7,11 +7,11 @@ namespace CostManager.CategoryService.Repositories;
 
 public class InMemoryRepository : ICategoryRepository
 {
-    private readonly ConcurrentDictionary<string, UserCategoryGroup> _usersCategoriesGroups = new();
+    private static readonly ConcurrentDictionary<Guid, UserCategoryGroup> _usersCategoriesGroups = new();
     
-    public async Task<string> AddCategory(Category category)
+    public async Task<Guid> AddCategory(Category category)
     {
-        if (string.IsNullOrEmpty(category.UserId))
+        if (category.UserId == Guid.Empty)
             throw new ArgumentException($"UserId can't be null or empty: {category.UserId}");
             
         var userCategories = _usersCategoriesGroups.GetOrAdd(category.UserId, new UserCategoryGroup());
@@ -23,7 +23,7 @@ public class InMemoryRepository : ICategoryRepository
 
     public async Task<bool> UpdateCategory(Category category)
     {
-        if (string.IsNullOrEmpty(category.UserId))
+        if (category.UserId == Guid.Empty)
             throw new ArgumentException($"UserId can't be null or empty: {category.UserId}");
 
         bool result = false;
@@ -36,9 +36,9 @@ public class InMemoryRepository : ICategoryRepository
         return await Task.FromResult(result);
     }
 
-    public async Task<Category?> GetCategoryById(string userId, string categoryId)
+    public async Task<Category?> GetCategoryById(Guid userId, Guid categoryId)
     {
-        if (string.IsNullOrEmpty(userId))
+        if (userId == Guid.Empty)
             throw new ArgumentException($"UserId can't be null or empty: {userId}");
         
         Category? category = null;
@@ -51,9 +51,9 @@ public class InMemoryRepository : ICategoryRepository
         return await Task.FromResult(category);
     }
     
-    public async Task<Category?> GetCategoryByName(string userId, string categoryName)
+    public async Task<Category?> GetCategoryByName(Guid userId, string categoryName)
     {
-        if (string.IsNullOrEmpty(userId))
+        if (userId == Guid.Empty)
             throw new ArgumentException($"UserId can't be null or empty: {userId}");
         
         Category? category = null;
@@ -66,9 +66,9 @@ public class InMemoryRepository : ICategoryRepository
         return await Task.FromResult(category);
     }
 
-    public async Task<List<Category>?> GetCategories(string userId)
+    public async Task<List<Category>?> GetCategories(Guid userId)
     {
-        if (string.IsNullOrEmpty(userId))
+        if (userId == Guid.Empty)
             throw new ArgumentException($"UserId can't be null or empty: {userId}");
         
         List<Category>? categories = null;
@@ -81,9 +81,9 @@ public class InMemoryRepository : ICategoryRepository
         return await Task.FromResult(categories);;
     }
     
-    public async Task<CategoryWithChildren?> GetCategoryWithChildren(string userId, string categoryId)
+    public async Task<CategoryWithChildren?> GetCategoryWithChildren(Guid userId, Guid categoryId)
     {
-        if (string.IsNullOrEmpty(userId))
+        if (userId == Guid.Empty)
             throw new ArgumentException($"UserId can't be null or empty: {userId}");
         
         CategoryWithChildren? category = null;
@@ -96,9 +96,9 @@ public class InMemoryRepository : ICategoryRepository
         return await Task.FromResult(category);
     }
 
-    public async Task<bool> RemoveCategory(string userId, string categoryId)
+    public async Task<bool> RemoveCategory(Guid userId, Guid categoryId)
     {
-        if (string.IsNullOrEmpty(userId))
+        if (userId == Guid.Empty)
             throw new ArgumentException($"UserId can't be null or empty: {userId}");
         
         bool result = false;
@@ -111,9 +111,9 @@ public class InMemoryRepository : ICategoryRepository
         return await Task.FromResult(result);
     }
 
-    public async Task<bool> RemoveCategories(string userId)
+    public async Task<bool> RemoveCategories(Guid userId)
     {
-        if (string.IsNullOrEmpty(userId))
+        if (userId == Guid.Empty)
             throw new ArgumentException($"UserId can't be null or empty: {userId}");
 
         bool result = _usersCategoriesGroups.TryRemove(userId, out var userCategories);
@@ -123,19 +123,19 @@ public class InMemoryRepository : ICategoryRepository
 
     private class UserCategoryGroup
     {
-        private readonly ConcurrentDictionary<string, Category> _categoriesById = new();
+        private readonly ConcurrentDictionary<Guid, Category> _categoriesById = new();
 
         public bool TryAdd(Category category)
         {
             if (category == null) throw new ArgumentNullException(nameof(category));
             
-            if (!string.IsNullOrEmpty(category.CategoryId))
+            if (category.CategoryId != Guid.Empty)
                 throw new ArgumentException($"Category should not exist. CategoryId should be null or empty: {category.CategoryId}");
             
             if (string.IsNullOrEmpty(category.Title))
                 throw new ArgumentException($"Title can't be null or empty: {category.Title}");
 
-            category.CategoryId = Guid.NewGuid().ToString();
+            category.CategoryId = Guid.NewGuid();
             return _categoriesById.TryAdd(category.CategoryId, category);
         }
 
@@ -143,7 +143,7 @@ public class InMemoryRepository : ICategoryRepository
         {
             if (category == null) throw new ArgumentNullException(nameof(category));
             
-            if (string.IsNullOrEmpty(category.CategoryId))
+            if (category.CategoryId == Guid.Empty)
                 throw new ArgumentException($"CategoryId can't be null or empty: {category.CategoryId}");
             
             if (string.IsNullOrEmpty(category.Title))
@@ -160,9 +160,9 @@ public class InMemoryRepository : ICategoryRepository
             return result;
         }
 
-        public Category? GetCategoryById(string categoryId)
+        public Category? GetCategoryById(Guid categoryId)
         {
-            if (string.IsNullOrEmpty(categoryId))
+            if (categoryId == Guid.Empty)
                 throw new ArgumentException($"CategoryId can't be null or empty: {categoryId}");
             
             return _categoriesById.GetValueOrDefault(categoryId);
@@ -181,9 +181,9 @@ public class InMemoryRepository : ICategoryRepository
             return _categoriesById.Values.ToList();
         }
         
-        public CategoryWithChildren? GetCategoryWithChildren(string categoryId)
+        public CategoryWithChildren? GetCategoryWithChildren(Guid categoryId)
         {
-            if (string.IsNullOrEmpty(categoryId))
+            if (categoryId == Guid.Empty)
                 throw new ArgumentException($"CategoryId can't be null or empty: {categoryId}");
             
             var category = GetCategoryById(categoryId);
@@ -209,9 +209,9 @@ public class InMemoryRepository : ICategoryRepository
             return categoryWithChildren;
         }
         
-        public bool TryRemove(string categoryId)
+        public bool TryRemove(Guid categoryId)
         {
-            if (string.IsNullOrEmpty(categoryId))
+            if (categoryId == Guid.Empty)
                 throw new ArgumentException($"CategoryId can't be null or empty: {categoryId}");
 
             bool result = _categoriesById.TryRemove(categoryId, out _);
