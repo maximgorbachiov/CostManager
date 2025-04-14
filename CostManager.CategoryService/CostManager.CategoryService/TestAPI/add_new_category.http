@@ -1,5 +1,4 @@
 // Setting userId global var
-//@userId = "{{$random.uuid}}"
 @userId = {{$random.uuid}}
 
 ###
@@ -18,8 +17,22 @@ Content-Type: application/json
 }
 
 > {%
+    client.log(request.body);
+    const requestBody = JSON.parse(request.body());
+    const userIdFromBody = requestBody.UserId;
+    
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+
+    const guidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
+    client.test("Category guid exists", function() {
+        client.assert(response.body.match(guidRegex) != null, "Cannot find guid in response");
+    });
+
     // Save newly added categoryId to the global var
-    client.global.set("guid", response.body); 
+    client.global.set("guid", response.body);
+    client.global.set("userId", userIdFromBody);
 %}
 
 ###
@@ -29,6 +42,21 @@ Content-Type: application/json
 // Check that recently created category was really added
 GET http://localhost:7275/api/category/getById/{{userId}}/{{guid}}
 
+> {%
+    const expectedUserId = client.global.get("userId");
+    const expectedCategoryId = client.global.get("guid");
+    
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+
+    const data = response.body;
+    client.test("Category is the same as saved on first step", function() {
+        client.assert(data.userId == expectedUserId, `User is another than requested one. Expected: ${expectedUserId} but Actual: ${data.userId}`);
+        client.assert(data.categoryId == expectedCategoryId, `Category is another than requested one. Expected: ${expectedCategoryId} but Actual: ${data.categoryId}`);
+    });
+%}
+
 ###
 
 # @name DeleteCategory
@@ -36,9 +64,25 @@ GET http://localhost:7275/api/category/getById/{{userId}}/{{guid}}
 // Clear test data
 DELETE http://localhost:7275/api/category/remove/{{userId}}/{{guid}}
 
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+
+    client.test("Category was successfully deleted", function() {
+        client.assert(response.body === true, "Attempt to delete category was failed");
+    });
+%}
+
 ###
 
 # @name CheckCategoryWasDeleted
 # @timeout 600
 // Check that recently created category was really added
 GET http://localhost:7275/api/category/getById/{{userId}}/{{guid}}
+
+> {%
+    client.test("Category wasn't found", function() {
+        client.assert(response.status === 204, "Response status is not 204");
+    });
+%}
