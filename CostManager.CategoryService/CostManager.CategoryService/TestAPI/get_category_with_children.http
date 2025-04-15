@@ -1,0 +1,216 @@
+// Setting userId global var
+@userId = {{$random.uuid}}
+@parentCategoryLvl1Name = ParentCategoryLvl1
+@updatedCategoryName = NowIsCategoryLvl3
+
+###
+
+// Call AddCategory function to create parent lvl1 category
+# @name AddParentCategoryLvl1
+# @timeout 600
+POST http://localhost:7275/api/category/add
+Content-Type: application/json
+
+{
+  "UserId": "{{userId}}",
+  "Title": "{{parentCategoryLvl1Name}}",
+  "Description": "Parent category which will be filled with two children categories",
+  "ParentCategoryId": null
+}
+
+> {%
+    client.log(request.body);
+    const requestBody = JSON.parse(request.body());
+    const userIdFromBody = requestBody.UserId;
+
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+
+    const guidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
+    client.test("Category guid exists", function() {
+        client.assert(response.body.match(guidRegex) != null, "Cannot find guid in response");
+    });
+
+    // Save newly added categoryId to the global var
+    client.global.set("parentGuidLvl1", response.body);
+    client.global.set("userId", userIdFromBody);
+%}
+
+###
+
+// Call AddCategory function to create parent lvl2 category
+# @name AddParentCategoryLvl2
+# @timeout 600
+POST http://localhost:7275/api/category/add
+Content-Type: application/json
+
+{
+  "UserId": "{{userId}}",
+  "Title": "ParentCategoryLvl2",
+  "Description": "Parent category lvl2 which will be filled with one child",
+  "ParentCategoryId": "{{parentGuidLvl1}}"
+}
+
+> {%
+    const requestBody = JSON.parse(request.body());
+
+    // Save newly added categoryId to the global var
+    client.global.set("parentGuidLvl2", response.body);
+%}
+
+###
+
+// Call AddCategory function to create lvl2 category
+# @name AddCategoryLvl2
+# @timeout 600
+POST http://localhost:7275/api/category/add
+Content-Type: application/json
+
+{
+  "UserId": "{{userId}}",
+  "Title": "CategoryLvl2",
+  "Description": "Category lvl2 which has no children categories",
+  "ParentCategoryId": "{{parentGuidLvl1}}"
+}
+
+> {%
+    const requestBody = JSON.parse(request.body());
+
+    // Save newly added categoryId to the global var
+    client.global.set("guidLvl2", response.body);
+%}
+
+###
+
+// Call AddCategory function to create lvl3 category
+# @name AddCategoryLvl3
+# @timeout 600
+POST http://localhost:7275/api/category/add
+Content-Type: application/json
+
+{
+  "UserId": "{{userId}}",
+  "Title": "CategoryLvl3",
+  "Description": "Category lvl3",
+  "ParentCategoryId": "{{parentGuidLvl2}}"
+}
+
+###
+
+// Call AddCategory function to create lvl1 category
+# @name AddCategoryLvl1
+# @timeout 600
+POST http://localhost:7275/api/category/add
+Content-Type: application/json
+
+{
+  "UserId": "{{userId}}",
+  "Title": "CategoryLvl1",
+  "Description": "Category lvl1 which has no children categories",
+  "ParentCategoryId": null
+}
+
+> {%
+    const requestBody = JSON.parse(request.body());
+
+    // Save newly added categoryId to the global var
+    client.global.set("guidLvl1", response.body);
+%}
+
+###
+
+# @name CheckCategoriesWereAdded
+# @timeout 600
+// Check that recently created categories were really added
+GET http://localhost:7275/api/category/getAllByUser/{{userId}}
+
+> {%
+    const data = response.body;
+    const expectedCount = 5;
+
+    client.test("Categories count should be the same as count of add methods calls", function() {
+        client.assert(data.length == expectedCount, `Count of categories expected to be ${expectedCount}, but actually is ${data.length}`);
+    });
+%}
+
+###
+
+// Call UpdateCategory function to make category lvl1 be child of empty category lvl2
+# @name UpdateCategoryLvl1
+# @timeout 600
+PUT http://localhost:7275/api/category/update
+Content-Type: application/json
+
+{
+  "CategoryId": "{{guidLvl1}}",
+  "UserId": "{{userId}}",
+  "Title": "{{updatedCategoryName}}",
+  "Description": "Test update empty category lvl1 to be child of empty category lvl2",
+  "ParentCategoryId": "{{guidLvl2}}"
+}
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+
+    client.test("Category was successfully updated", function() {
+        client.assert(response.body === true, "Attempt to update category was failed");
+    });
+%}
+
+
+###
+
+# @name CheckParentCategoryLvl1NowIsRootCategory
+# @timeout 600
+// Check that now parentCategoryLvl1 is only one root category and all the other categories are its children
+GET http://localhost:7275/api/category/getWithChildren/{{userId}}/{{parentGuidLvl1}}
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+
+    const expectedParentTitle = "ParentCategoryLvl1";
+    const expectedLvl2ChildrenCount = 2;
+    const expectedLvl3ChildrenCount = 1;
+    const data = response.body;
+    client.test("Check if parentCategoryLvl1 is root", function() {
+        client.assert(data.title == expectedParentTitle, `The title expected to be ${expectedParentTitle} but actual: ${data.title}`);
+        client.assert(data.childrenCategories.length == expectedLvl2ChildrenCount, `Children count on lvl2 expected to be ${expectedLvl2ChildrenCount} but actual: ${data.childrenCategories.length}`);
+        client.assert(data.childrenCategories[0].childrenCategories.length == expectedLvl3ChildrenCount, `Children count of lvl2[0] on lvl3 expected to be ${expectedLvl3ChildrenCount} but actual: ${data.childrenCategories[0].childrenCategories.length}`);
+        client.assert(data.childrenCategories[1].childrenCategories.length == expectedLvl3ChildrenCount, `Children count of lvl2[1] on lvl3 expected to be ${expectedLvl3ChildrenCount} but actual: ${data.childrenCategories[1].childrenCategories.length}`);
+    });
+%}
+
+###
+
+# @name DeleteAllCategories
+# @timeout 600
+// Clear test data
+DELETE http://localhost:7275/api/category/removeAllByUser/{{userId}}
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+
+    client.test("All categories were successfully deleted", function() {
+        client.assert(response.body === true, "Attempt to delete category was failed");
+    });
+%}
+
+###
+
+# @name CheckAllCategoriesWereDeleted
+# @timeout 600
+// Check that recently created categories were really added
+GET http://localhost:7275/api/category/getAllByUser/{{userId}}
+
+> {%
+    client.test("Categories wasn't found", function() {
+        client.assert(response.status === 204, "Response status is not 204");
+    });
+%}

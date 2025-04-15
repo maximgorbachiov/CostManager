@@ -1,5 +1,6 @@
 // Setting userId global var
 @userId = {{$random.uuid}}
+@updatedCategoryName = UpdatedCategory
 
 ###
 
@@ -37,7 +38,7 @@ Content-Type: application/json
 
 ###
 
-# @name CheckCategoryWasAdded
+# @name CheckCategoryWasAdded_ById
 # @timeout 600
 // Check that recently created category was really added
 GET http://localhost:7275/api/category/getById/{{userId}}/{{guid}}
@@ -68,7 +69,7 @@ Content-Type: application/json
 {
   "CategoryId": "{{guid}}",
   "UserId": "{{userId}}",
-  "Title": "UpdatedCategory",
+  "Title": "{{updatedCategoryName}}",
   "Description": "Test update category",
   "ParentCategoryId": null
 }
@@ -85,19 +86,21 @@ Content-Type: application/json
 
 ###
 
-# @name CheckCategoryWasUpdated
+# @name CheckCategoryWasUpdated_ByName
 # @timeout 600
 // Check that recently updated category was really updated
-GET http://localhost:7275/api/category/getById/{{userId}}/{{guid}}
+GET http://localhost:7275/api/category/getByName/{{userId}}/{{updatedCategoryName}}
 
 > {%
     client.test("Request executed successfully", function() {
         client.assert(response.status === 200, "Response status is not 200");
     });
 
-    const data = response.body;
+    const requestBody = JSON.parse(request.body());
     const expectedTitle = "UpdatedCategory";
     const expectedDescription = "Test update category";
+    
+    const data = response.body;
     client.test("Check if category was updated", function() {
         client.assert(data.title == expectedTitle, `The title was not updated. Expected: ${expectedTitle} but Actual: ${data.title}`);
         client.assert(data.description == expectedDescription, `The description was not updated. Expected: ${expectedDescription} but Actual: ${data.description}`);
