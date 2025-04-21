@@ -10,4 +10,8 @@
       <ProjectReference Include="..\CostManager.CategoryService.Abstracts\CostManager.CategoryService.Abstracts.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.50.0-preview.0" />
+    </ItemGroup>
+
 </Project>

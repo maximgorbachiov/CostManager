@@ -24,7 +24,13 @@ public class GetAllByUser
     {
         _logger.LogInformation("Start processing Get categories by User trigger function request.");
         var result = await _categoryService.GetCategories(userId);
+        bool isNoContent = result == null || result.Count == 0;
         _logger.LogInformation("Stop processing Get categories by User trigger function request.");
+
+        if (isNoContent)
+        {
+            return new NoContentResult();
+        }
         return new OkObjectResult(result);
     }
 }
