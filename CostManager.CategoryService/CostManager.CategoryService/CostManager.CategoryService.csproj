@@ -3,6 +3,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <AzureFunctionsVersion>v4</AzureFunctionsVersion>
         <OutputType>Exe</OutputType>
+        <FunctionsEnableWorkerIndexing>False</FunctionsEnableWorkerIndexing>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
