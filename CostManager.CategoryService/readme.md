@@ -1,5 +1,5 @@
 In Future:
-    1) Add .http environments to test different azure function stagings
+    1) Separate .http tests to another project
 
 Using:
     1) For local run preferable way is running application through the Rider:
@@ -12,4 +12,8 @@ Potential Issues:
         <FunctionsEnableWorkerIndexing>False</FunctionsEnableWorkerIndexing> (https://github.com/Azure/azure-functions-dotnet-worker/issues/2072) should be added to the CategoryService.csproj file
     2) To publish category service into azure function app firstly should be checked that:
         func app -> Configuration -> General settings -> SCM Basic Auth Publishing Credentials is ON
-        (https://learn.microsoft.com/en-us/answers/questions/137869/publish-profile-publishurl-needs-to-be-adjusted-af) 
+        (https://learn.microsoft.com/en-us/answers/questions/137869/publish-profile-publishurl-needs-to-be-adjusted-af)
+    3) By default .net cli uses the MINOR version of SDK so if there are installed net6.0 and net8.0 it will use 6.0 even the project reference 8.0. So should be added global.json with 8.0 version to the project and it will force cli to build project under 8.0:
+        3.1) dotnet new globaljson --sdk-version 8.0.303
+        3.2) func start or func start -build
+    4) Should not forget that local.settings.json is only for development purposes and will not copy to the service. Settings from it should be copied to either KeyVault, Appication Configuration or Environment variables
