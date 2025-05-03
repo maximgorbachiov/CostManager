@@ -6,7 +6,7 @@
 // Call AddCategory function to create new category
 # @name AddCategory
 # @timeout 600
-POST http://localhost:7275/api/category/add
+POST {{host}}/api/category/add
 Content-Type: application/json
 
 {
@@ -40,7 +40,7 @@ Content-Type: application/json
 # @name CheckCategoryWasAdded
 # @timeout 600
 // Check that recently created category was really added
-GET http://localhost:7275/api/category/getById/{{userId}}/{{guid}}
+GET {{host}}/api/category/getById/{{userId}}/{{guid}}
 
 > {%
     const expectedUserId = client.global.get("userId");
@@ -62,7 +62,7 @@ GET http://localhost:7275/api/category/getById/{{userId}}/{{guid}}
 # @name DeleteCategory
 # @timeout 600
 // Clear test data
-DELETE http://localhost:7275/api/category/remove/{{userId}}/{{guid}}
+DELETE {{host}}/api/category/remove/{{userId}}/{{guid}}
 
 > {%
     client.test("Request executed successfully", function() {
@@ -79,7 +79,7 @@ DELETE http://localhost:7275/api/category/remove/{{userId}}/{{guid}}
 # @name CheckCategoryWasDeleted
 # @timeout 600
 // Check that recently created category was really added
-GET http://localhost:7275/api/category/getById/{{userId}}/{{guid}}
+GET {{host}}/api/category/getById/{{userId}}/{{guid}}
 
 > {%
     client.test("Category wasn't found", function() {
