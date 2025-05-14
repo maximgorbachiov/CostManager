@@ -17,3 +17,4 @@ Potential Issues:
         3.1) dotnet new globaljson --sdk-version 8.0.303
         3.2) func start or func start -build
     4) Should not forget that local.settings.json is only for development purposes and will not copy to the service. Settings from it should be copied to either KeyVault, Appication Configuration or Environment variables
+    5) Take care of https and http. If functions return 404 but every configuration is okay than should be checked https only option. If it is ON but no certificates were set than https only should be switched to OFF

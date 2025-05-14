@@ -4,6 +4,9 @@
 # Azure Functions localsettings file
 local.settings.json
 
+# File with secrets for http tests calls to azure api
+http-client.private.env.json
+
 # User-specific files
 *.suo
 *.user
