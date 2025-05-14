@@ -7,7 +7,7 @@
 // Call AddCategory function to create new category
 # @name AddCategory
 # @timeout 600
-POST http://localhost:7275/api/category/add
+POST {{host}}/api/category/add?code={{code}}
 Content-Type: application/json
 
 {
@@ -41,7 +41,7 @@ Content-Type: application/json
 # @name CheckCategoryWasAdded_ById
 # @timeout 600
 // Check that recently created category was really added
-GET http://localhost:7275/api/category/getById/{{userId}}/{{guid}}
+GET {{host}}/api/category/getById/{{userId}}/{{guid}}?code={{code}}
 
 > {%
     const expectedUserId = client.global.get("userId");
@@ -63,7 +63,7 @@ GET http://localhost:7275/api/category/getById/{{userId}}/{{guid}}
 // Call UpdateCategory function to update category
 # @name UpdateCategory
 # @timeout 600
-PUT http://localhost:7275/api/category/update
+PUT {{host}}/api/category/update?code={{code}}
 Content-Type: application/json
 
 {
@@ -89,7 +89,7 @@ Content-Type: application/json
 # @name CheckCategoryWasUpdated_ByName
 # @timeout 600
 // Check that recently updated category was really updated
-GET http://localhost:7275/api/category/getByName/{{userId}}/{{updatedCategoryName}}
+GET {{host}}/api/category/getByName/{{userId}}/{{updatedCategoryName}}?code={{code}}
 
 > {%
     client.test("Request executed successfully", function() {
@@ -112,7 +112,7 @@ GET http://localhost:7275/api/category/getByName/{{userId}}/{{updatedCategoryNam
 # @name DeleteCategory
 # @timeout 600
 // Clear test data
-DELETE http://localhost:7275/api/category/remove/{{userId}}/{{guid}}
+DELETE {{host}}/api/category/remove/{{userId}}/{{guid}}?code={{code}}
 
 > {%
     client.test("Request executed successfully", function() {
@@ -129,7 +129,7 @@ DELETE http://localhost:7275/api/category/remove/{{userId}}/{{guid}}
 # @name CheckCategoryWasDeleted
 # @timeout 600
 // Check that recently created category was really added
-GET http://localhost:7275/api/category/getById/{{userId}}/{{guid}}
+GET {{host}}/api/category/getById/{{userId}}/{{guid}}?code={{code}}
 
 > {%
     client.test("Category wasn't found", function() {

@@ -8,7 +8,7 @@
 // Call AddCategory function to create parent lvl1 category
 # @name AddParentCategoryLvl1
 # @timeout 600
-POST http://localhost:7275/api/category/add
+POST {{host}}/api/category/add?code={{code}}
 Content-Type: application/json
 
 {
@@ -42,7 +42,7 @@ Content-Type: application/json
 // Call AddCategory function to create parent lvl2 category
 # @name AddParentCategoryLvl2
 # @timeout 600
-POST http://localhost:7275/api/category/add
+POST {{host}}/api/category/add?code={{code}}
 Content-Type: application/json
 
 {
@@ -64,7 +64,7 @@ Content-Type: application/json
 // Call AddCategory function to create lvl2 category
 # @name AddCategoryLvl2
 # @timeout 600
-POST http://localhost:7275/api/category/add
+POST {{host}}/api/category/add?code={{code}}
 Content-Type: application/json
 
 {
@@ -86,7 +86,7 @@ Content-Type: application/json
 // Call AddCategory function to create lvl3 category
 # @name AddCategoryLvl3
 # @timeout 600
-POST http://localhost:7275/api/category/add
+POST {{host}}/api/category/add?code={{code}}
 Content-Type: application/json
 
 {
@@ -101,7 +101,7 @@ Content-Type: application/json
 // Call AddCategory function to create lvl1 category
 # @name AddCategoryLvl1
 # @timeout 600
-POST http://localhost:7275/api/category/add
+POST {{host}}/api/category/add?code={{code}}
 Content-Type: application/json
 
 {
@@ -123,7 +123,7 @@ Content-Type: application/json
 # @name CheckCategoriesWereAdded
 # @timeout 600
 // Check that recently created categories were really added
-GET http://localhost:7275/api/category/getAllByUser/{{userId}}
+GET {{host}}/api/category/getAllByUser/{{userId}}?code={{code}}
 
 > {%
     const data = response.body;
@@ -139,7 +139,7 @@ GET http://localhost:7275/api/category/getAllByUser/{{userId}}
 // Call UpdateCategory function to make category lvl1 be child of empty category lvl2
 # @name UpdateCategoryLvl1
 # @timeout 600
-PUT http://localhost:7275/api/category/update
+PUT {{host}}/api/category/update?code={{code}}
 Content-Type: application/json
 
 {
@@ -166,7 +166,7 @@ Content-Type: application/json
 # @name CheckParentCategoryLvl1NowIsRootCategory
 # @timeout 600
 // Check that now parentCategoryLvl1 is only one root category and all the other categories are its children
-GET http://localhost:7275/api/category/getWithChildren/{{userId}}/{{parentGuidLvl1}}
+GET {{host}}/api/category/getWithChildren/{{userId}}/{{parentGuidLvl1}}?code={{code}}
 
 > {%
     client.test("Request executed successfully", function() {
@@ -190,7 +190,7 @@ GET http://localhost:7275/api/category/getWithChildren/{{userId}}/{{parentGuidLv
 # @name DeleteAllCategories
 # @timeout 600
 // Clear test data
-DELETE http://localhost:7275/api/category/removeAllByUser/{{userId}}
+DELETE {{host}}/api/category/removeAllByUser/{{userId}}?code={{code}}
 
 > {%
     client.test("Request executed successfully", function() {
@@ -207,7 +207,7 @@ DELETE http://localhost:7275/api/category/removeAllByUser/{{userId}}
 # @name CheckAllCategoriesWereDeleted
 # @timeout 600
 // Check that recently created categories were really added
-GET http://localhost:7275/api/category/getAllByUser/{{userId}}
+GET {{host}}/api/category/getAllByUser/{{userId}}?code={{code}}
 
 > {%
     client.test("Categories wasn't found", function() {
